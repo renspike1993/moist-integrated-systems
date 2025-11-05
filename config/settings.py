@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jet',   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'registrar',
         'USER': 'postgres',
-        'PASSWORD': 'renspike!',
+        'PASSWORD': 'renspike',
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -87,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'library',
         'USER': 'postgres',
-        'PASSWORD': 'renspike!',
+        'PASSWORD': 'renspike',
         'HOST': 'localhost',
         'PORT': '5432',
     },

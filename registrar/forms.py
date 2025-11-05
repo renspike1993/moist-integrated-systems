@@ -10,3 +10,10 @@ class FolderForm(forms.ModelForm):
             'floor_number': forms.NumberInput(attrs={'class': 'form-control'}),
             'max_size': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+        
+class CSVImportForm(forms.Form):
+    csv_file = forms.FileField(
+        label="Select CSV File",
+        widget=forms.FileInput(attrs={'class': 'form-control'})
+    )
