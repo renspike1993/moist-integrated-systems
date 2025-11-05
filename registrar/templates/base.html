@@ -67,36 +67,41 @@
 						</li>
 
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Requests </a>
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Services </a>
 							<ul class="dropdown-menu" aria-labelledby="dropdown01">
 								<li><a class="dropdown-item" href="#">Kiosk Services</a></li>
+								<li><a class="dropdown-item" href="#">Releasing</a></li>
+								<li><a class="dropdown-item" href="#">Enrollment</a></li>
 								<li><a class="dropdown-item" href="#">Adding / Dropping</a></li>
 								<li><a class="dropdown-item" href="#">Evaluation</a></li>
+								<li><a class="dropdown-item" href="#">S.O # Application</a></li>
+							</ul>
+						</li>
+						{% if user.is_authenticated and user.is_superuser %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">System Integrations </a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown01">
+								<li><a class="dropdown-item" href="{% url 'library:dashboard' %}">Library (OPAC)</a></li>
+								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Entrance Exam</a></li>
+								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Intramurals</a></li>
+								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Student Government Election (CSG)</a></li>
+								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Attendance</a></li>
 							</ul>
 						</li>
 
-
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Roles </a>
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Reports & Simulations</a>
 							<ul class="dropdown-menu" aria-labelledby="dropdown01">
-								<li><a class="dropdown-item" href="#">VPAA Office</a></li>
+								<li><a class="dropdown-item" href="#">Promotional Reports</a></li>
+								<li><a class="dropdown-item" href="#">Student's Portal</a></li>
+								<li><a class="dropdown-item" href="#">Instructor's Portal</a></li>
 								<li><a class="dropdown-item" href="#">Deans / Program Heads</a></li>
-								<li><a class="dropdown-item" href="#">Instructors</a></li>
-								<li><a class="dropdown-item" href="#">Students</a></li>
+								<li><a class="dropdown-item" href="#">VPAA Office</a></li>
 							</ul>
 						</li>
-
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Integrations </a>
-							<ul class="dropdown-menu" aria-labelledby="dropdown01">
-								<li><a class="dropdown-item" href="{% url 'library:dashboard' %}">Library</a></li>
-								<li><a class="dropdown-item" href="#">Entrance Exam</a></li>
-								<li><a class="dropdown-item" href="#">School Intramurals</a></li>
-								<li><a class="dropdown-item" href="#">Attendance</a></li>
-
-							</ul>
-						</li>
+						{% endif %}
 					</ul>
+
 					<form method="post" action="{% url 'logout' %}">
 						{% csrf_token %}
 						<button class="btn btn-danger btn-sm d-flex align-items-center" type="submit"><i class="bi bi-box-arrow-right me-2"></i> Logout</button>

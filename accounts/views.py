@@ -13,10 +13,13 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
 
-        if user.has_perm('library.view_book'):
-            return reverse_lazy('library:dashboard')
 
         if user.has_perm('registrar.view_folder'):
             return reverse_lazy('registrar:dashboard')
+
+        if user.has_perm('library.view_book'):
+            return reverse_lazy('library:dashboard')
+
+
 
         return reverse_lazy('accounts:login')

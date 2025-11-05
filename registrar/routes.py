@@ -5,6 +5,9 @@ from .views import student  # import the student views
 app_name = "registrar"
 
 urlpatterns = [
+
+    
+
     # Folder routes
     path('', data_center.get_dashboard, name='dashboard'),
     path('data-center/add/', data_center.add_folder, name='add_folder'),
