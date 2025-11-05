@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Import Students{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+  <i class="bi bi-file-earmark-spreadsheet fs-1 me-3"></i>
+  <div class="lh-1">
+    <h1 class="h6 mb-0 text-white lh-1">Import Students</h1>
+    <small>Upload CSV file to import student records</small>
+  </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="csv_file" class="form-label fw-bold">Select CSV File</label>
+      <input type="file" name="csv_file" accept=".csv" class="form-control" required />
+      <div class="form-text text-muted mt-2">
+        <i class="bi bi-info-circle"></i>
+        The CSV file must contain the following column headers:
+        <code>folder_name</code>, <code>folder_id</code>, <code>last_name</code>, <code>first_name</code>, <code>middle_name</code>.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-upload"></i> Upload & Import
+    </button>
+  </form>
+
+  <hr class="my-4">
+
+  <div>
+    <h6 class="fw-bold">Example CSV Format</h6>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>folder_name</th>
+            <th>folder_id</th>
+            <th>last_name</th>
+            <th>first_name</th>
+            <th>middle_name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Folder A</td>
+            <td>101</td>
+            <td>Santos</td>
+            <td>Maria</td>
+            <td>Cruz</td>
+          </tr>
+          <tr>
+            <td>Folder B</td>
+            <td>102</td>
+            <td>Reyes</td>
+            <td>Juan</td>
+            <td>Dela</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

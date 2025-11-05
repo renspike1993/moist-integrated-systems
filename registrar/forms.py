@@ -18,14 +18,27 @@ class CSVImportForm(forms.Form):
         widget=forms.FileInput(attrs={'class': 'form-control'})
     )
 
-
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['folder', 'last_name', 'first_name', 'middle_name']
+        fields = ['folder', 'curriculum', 'last_name', 'first_name', 'middle_name']
         widgets = {
-            'folder': forms.Select(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
-            'middle_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Middle Name'}),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name'
+            }),
+            'middle_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Middle Name'
+            }),
+            'folder': forms.Select(attrs={
+                'class': 'form-control select2',  # add select2 class here
+            }),
+            'curriculum': forms.Select(attrs={
+                'class': 'form-control',
+            }),
         }

@@ -6,7 +6,7 @@ app_name = "registrar"
 
 urlpatterns = [
 
-    
+
 
     # Folder routes
     path('', data_center.get_dashboard, name='dashboard'),
@@ -20,4 +20,5 @@ urlpatterns = [
     path('students/add/', student.add_student, name='add_student'),
     path('students/edit/<int:student_id>/', student.edit_student, name='edit_student'),
     path('students/delete/<int:student_id>/', student.delete_student, name='delete_student'),
+    path('students/import/', student.import_students_from_csv, name='import_students'),
 ]
