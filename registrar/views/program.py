@@ -7,7 +7,7 @@ from ..forms import ProgramForm
 from ..models import Program
 import csv
 
-# --- Program List (Dashboard) ---
+# --- Program List (Dashboard) -
 @login_required
 @permission_required('registrar.view_program', login_url='accounts:login')
 def get_programs(request):
