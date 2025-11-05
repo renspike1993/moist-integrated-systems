@@ -8,5 +8,6 @@ urlpatterns = [
     path('data-center/add/', data_center.add_folder, name='add_folder'),
     path('data-center/edit/<int:folder_id>/', data_center.edit_folder, name='edit_folder'),
     path('data-center/delete/<int:folder_id>/', data_center.delete_folder, name='delete_folder'),
+    path('data-center/import', data_center.import_folders_from_csv, name='import'),
 
 ]

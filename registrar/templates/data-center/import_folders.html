@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Import Folders from CSV</h4>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="csv_file" accept=".csv" required>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+{% endblock %}
