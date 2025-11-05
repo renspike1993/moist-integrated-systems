@@ -15,10 +15,6 @@ class Folder(models.Model):
 
 
 class Student(models.Model):
-    last_name = models.CharField(max_length=128)
-    first_name = models.CharField(max_length=128)
-    middle_name = models.CharField(max_length=128)
-    
     # Link student to a folder
     folder = models.ForeignKey(
         Folder, 
@@ -27,6 +23,12 @@ class Student(models.Model):
         blank=True,
         related_name='students'
     )
+
+
+    last_name = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=128)
+    middle_name = models.CharField(max_length=128)
+    
 
     @property
     def full_name(self):
