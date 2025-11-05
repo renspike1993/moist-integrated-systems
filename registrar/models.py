@@ -16,31 +16,30 @@ class Folder(models.Model):
 
 
 class Program(models.Model):
-    program_name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True,default='No major description provided.')
+    program_name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f"{self.program_name} {self.description}"
+        return f"{self.program_name}"
 
     class Meta:
         app_label = 'registrar'
 
 class Curriculum(models.Model):
     program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='curriculums')    
-    academic_year = models.CharField(max_length=20)
-    effective_semester = models.CharField(max_length=20)
-    effective_year = models.IntegerField()
+    major = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.program.program_name} - {self.academic_year} ({self.effective_semester} {self.effective_year})"
+        return f"{self.program.program_name} -  {self.effective_year})"
     
     class Meta:
         app_label = 'registrar'
 
 class Course(models.Model):
     curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE,default=0, related_name='courses')
+
     course_code = models.CharField(max_length=20)
     course_title = models.CharField(max_length=200,default='No Title')
+    
     lab_units = models.IntegerField(default=0)
     lec_units = models.IntegerField(default=0)
     prerequisites = models.CharField(max_length=200, blank=True, null=True)

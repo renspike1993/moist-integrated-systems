@@ -1,0 +1,7 @@
+Line 1832: value too long for type character varying(200)
+
+Line 1888: value too long for type character varying(200)
+
+Line 1890: value too long for type character varying(200)
+
+Line 1961: invalid literal for int() with base 10: '99.99'

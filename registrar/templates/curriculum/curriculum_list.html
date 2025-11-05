@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Curriculums{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <i class="bi bi-book fs-1 me-3"></i>
+    <div class="lh-1">
+        <h1 class="h6 mb-0 text-white lh-1">Curriculums</h1>
+        <small>Manage Curriculum Records</small>
+    </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="mb-0">Curriculum List</h6>
+        {% if perms.registrar.add_curriculum %}
+        <a href="{% url 'registrar:add_curriculum' %}" class="btn btn-primary">
+            <i class="bi bi-plus"></i> Add Curriculum
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Program</th>
+                    <th>Major</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for curriculum in page_obj %}
+                <tr>
+                    <td>{{ forloop.counter0|add:page_obj.start_index|add:"-1" }}</td>
+                    <td>{{ curriculum.program.program_name }}</td>
+                    <td>{{ curriculum.major|default:"N/A" }}</td>
+                    <td class="text-center">
+                        {% if perms.registrar.change_curriculum %}
+                        <a href="{% url 'registrar:edit_curriculum' curriculum.id %}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        {% endif %}
+                        {% if perms.registrar.delete_curriculum %}
+                        <a href="{% url 'registrar:delete_curriculum' curriculum.id %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                        {% endif %}
+                        {% if not perms.registrar.change_curriculum and not perms.registrar.delete_curriculum %}
+                        <button class="btn btn-sm btn-outline-secondary" disabled>No available Action</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No curriculums available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Curriculum pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

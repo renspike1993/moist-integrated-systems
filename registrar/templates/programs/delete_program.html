@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Delete Program{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+  <i class="bi bi-trash fs-1 me-3"></i>
+  <div class="lh-1">
+    <h1 class="h6 mb-0 text-white lh-1">Delete Program</h1>
+    <small>Confirm deletion of program</small>
+  </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm text-center">
+  <p>Are you sure you want to delete <strong>{{ program.program_name }}</strong>?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">
+      <i class="bi bi-trash"></i> Delete
+    </button>
+    <a href="{% url 'registrar:programs' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

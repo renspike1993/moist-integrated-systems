@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Delete Curriculum{% endblock %}
+{% block content %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h5>Are you sure you want to delete curriculum: {{ curriculum.program.program_name }} - {{ curriculum.effective_year }}?</h5>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'registrar:curriculum_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

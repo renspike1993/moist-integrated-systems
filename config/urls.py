@@ -22,6 +22,8 @@ from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     # path('jet/', include('jet.urls', 'jet')),  # Jet URLs
+    path('', CustomLoginView.as_view(), name='login'),
+
     path('admin/', admin.site.urls),
 
     path('accounts/login/', CustomLoginView.as_view(), name='login'),

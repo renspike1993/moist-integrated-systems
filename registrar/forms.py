@@ -1,5 +1,5 @@
 from django import forms
-from .models import Folder,Student
+from .models import Folder,Student,Program,Curriculum
 
 class FolderForm(forms.ModelForm):
     class Meta:
@@ -41,4 +41,26 @@ class StudentForm(forms.ModelForm):
             'curriculum': forms.Select(attrs={
                 'class': 'form-control',
             }),
+        }
+
+
+
+class ProgramForm(forms.ModelForm):
+    class Meta:
+        model = Program
+        fields = ['program_name']
+        widgets = {
+            'program_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Program Name'
+            }),
+        }
+
+class CurriculumForm(forms.ModelForm):
+    class Meta:
+        model = Curriculum
+        fields = ['program', 'major']  # Remove effective_year
+        widgets = {
+            'program': forms.Select(attrs={'class': 'form-control'}),
+            'major': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Major (optional)'}),
         }

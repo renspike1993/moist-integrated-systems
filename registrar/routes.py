@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import data_center
-from .views import student  # import the student views
+from .views import data_center,student,curriculum,program
 
 app_name = "registrar"
 
@@ -21,4 +20,20 @@ urlpatterns = [
     path('students/edit/<int:student_id>/', student.edit_student, name='edit_student'),
     path('students/delete/<int:student_id>/', student.delete_student, name='delete_student'),
     path('students/import/', student.import_students_from_csv, name='import_students'),
+
+    # Program routes
+    path('programs/', program.get_programs, name='programs'),
+    path('programs/add/', program.add_program, name='add_program'),
+    path('programs/edit/<int:program_id>/', program.edit_program, name='edit_program'),
+    path('programs/delete/<int:program_id>/', program.delete_program, name='delete_program'),
+    path('programs/import/', program.import_programs_from_csv, name='import_programs'),
+
+
+    # Curriculum routes
+    path('curriculums/', curriculum.curriculum_list, name='curriculum_list'),
+    path('curriculums/add/', curriculum.add_curriculum, name='add_curriculum'),
+    path('curriculums/edit/<int:curriculum_id>/', curriculum.edit_curriculum, name='edit_curriculum'),
+    path('curriculums/delete/<int:curriculum_id>/', curriculum.delete_curriculum, name='delete_curriculum'),
+    path('curriculum/import/', curriculum.import_curriculum_from_csv, name='import_curriculum'),
+
 ]

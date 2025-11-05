@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Add Program{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+  <i class="bi bi-plus-circle fs-1 me-3"></i>
+  <div class="lh-1">
+    <h1 class="h6 mb-0 text-white lh-1">Add Program</h1>
+    <small>Create a new program record</small>
+  </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-3">
+      {{ form.program_name.label_tag }}
+      {{ form.program_name }}
+      {{ form.program_name.errors }}
+    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-check-circle"></i> Save Program
+    </button>
+    <a href="{% url 'registrar:programs' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

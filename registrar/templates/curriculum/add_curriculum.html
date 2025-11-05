@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add Curriculum{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <i class="bi bi-book fs-1 me-3"></i>
+    <div class="lh-1">
+        <h1 class="h6 mb-0 text-white lh-1">Add Curriculum</h1>
+        <small>Create a new curriculum</small>
+    </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Save
+        </button>
+    </form>
+</div>
+{% endblock %}

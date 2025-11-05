@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Import Programs{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+  <i class="bi bi-file-earmark-spreadsheet fs-1 me-3"></i>
+  <div class="lh-1">
+    <h1 class="h6 mb-0 text-white lh-1">Import Programs</h1>
+    <small>Upload CSV to import program records</small>
+  </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <p><strong>CSV Column Headers Must Be:</strong> <code>program</code></p>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="csv_file" class="form-label">Select CSV File</label>
+      <input type="file" name="csv_file" accept=".csv" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-upload"></i> Upload & Import
+    </button>
+    <a href="{% url 'registrar:programs' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}
