@@ -16,6 +16,7 @@ class Folder(models.Model):
 
 
 class Program(models.Model):
+    program_abbreviation = models.CharField(max_length=20,default='N/A')
     program_name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
