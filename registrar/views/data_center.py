@@ -5,7 +5,10 @@ from django.contrib import messages
 from django.db import transaction
 from ..forms import FolderForm
 from ..models import Folder, Student
+from django.contrib.auth.decorators import login_required,permission_required
 
+
+@login_required
 def get_dashboard(request):
     # Get the search query from GET parameters
     query = request.GET.get('q', '')
