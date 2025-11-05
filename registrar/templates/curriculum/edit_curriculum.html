@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Edit Curriculum{% endblock %}
+
 {% block content %}
+<!-- Header -->
 <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
     <i class="bi bi-book fs-1 me-3"></i>
     <div class="lh-1">
@@ -9,21 +11,29 @@
     </div>
 </div>
 
+<!-- Edit Form -->
 <div class="my-3 p-3 bg-body rounded shadow-sm">
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">
-            <i class="bi bi-save"></i> Save
+            <i class="bi bi-save"></i> Save Changes
         </button>
     </form>
 </div>
 
+<!-- Courses Table -->
 {% if courses %}
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h6>Courses in this Curriculum</h6>
+    <!-- Section Header -->
+    <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-journal-bookmark fs-4 me-2 text-primary"></i>
+        <h6 class="mb-0">Courses in this Curriculum</h6>
+    </div>
+
+    <!-- Table -->
     <div class="table-responsive">
-        <table class="table table-hover align-middle">
+        <table class="table table-hover table-striped align-middle">
             <thead class="table-primary">
                 <tr>
                     <th>#</th>
@@ -34,6 +44,8 @@
                     <th>Year Level</th>
                     <th>Semester</th>
                     <th>Prerequisites</th>
+                    <!-- Optional: Actions Column -->
+                    <!-- <th class="text-center">Actions</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +58,7 @@
                     <td>{{ course.lab_units }}</td>
                     <td>{{ course.year_level }}</td>
                     <td>{{ course.semester_offered }}</td>
-                    <td>{{ course.prerequisites }}</td>
+                    <td>{{ course.prerequisites|default:"-" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -54,6 +66,8 @@
     </div>
 </div>
 {% else %}
-<p class="text-muted">No courses are currently associated with this curriculum.</p>
+<div class="my-3 p-3 bg-body rounded shadow-sm text-center text-muted">
+    <i class="bi bi-info-circle me-1"></i> No courses are currently associated with this curriculum.
+</div>
 {% endif %}
 {% endblock %}
