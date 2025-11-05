@@ -19,14 +19,15 @@ from django.urls import path,include
 from accounts.views import CustomLoginView
 from django.contrib.auth.views import LogoutView
 
-app_name = 'accounts' 
 
 urlpatterns = [
     # path('jet/', include('jet.urls', 'jet')),  # Jet URLs
     path('admin/', admin.site.urls),
-    
+
     path('accounts/login/', CustomLoginView.as_view(), name='login'),
     path('accounts/logout/', LogoutView.as_view(next_page='login'), name='logout'),
+
+    path('accounts/', include('accounts.routes')), 
 
     path('registrar/', include('registrar.routes')), 
     path('library/', include('library.routes')), 

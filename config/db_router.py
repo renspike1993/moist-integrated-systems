@@ -7,14 +7,14 @@ class AppRouter:
         if model._meta.app_label == 'registrar':
             return 'default'
         elif model._meta.app_label == 'library':
-            return 'library_db'
+            return 'library'
         return None
 
     def db_for_write(self, model, **hints):
         if model._meta.app_label == 'registrar':
             return 'default'
         elif model._meta.app_label == 'library':
-            return 'library_db'
+            return 'library'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
@@ -27,5 +27,5 @@ class AppRouter:
         if app_label == 'registrar':
             return db == 'default'
         elif app_label == 'library':
-            return db == 'library_db'
+            return db == 'library'
         return None

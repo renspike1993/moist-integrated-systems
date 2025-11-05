@@ -1,5 +1,5 @@
 from django import forms
-from .models import Folder
+from .models import Folder,Student
 
 class FolderForm(forms.ModelForm):
     class Meta:
@@ -17,3 +17,15 @@ class CSVImportForm(forms.Form):
         label="Select CSV File",
         widget=forms.FileInput(attrs={'class': 'form-control'})
     )
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['folder', 'last_name', 'first_name', 'middle_name']
+        widgets = {
+            'folder': forms.Select(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'middle_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Middle Name'}),
+        }

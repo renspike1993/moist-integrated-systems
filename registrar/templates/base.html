@@ -51,7 +51,7 @@
 				<div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="#">Data Center</a>
+							<a class="nav-link {% if request.path == '/registrar/' %}active{% endif %}" href="{% url 'registrar:dashboard' %}"> Data Center </a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">Courses</a>
@@ -61,11 +61,20 @@
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" href="#">Students</a>
+							{% if perms.registrar.view_student %}
+							<a class="nav-link {% if request.path == '/registrar/students/' %}active{% endif %}" href="{% url 'registrar:student_list' %}"> Students </a>
+							{% endif %}
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Transactions</a>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Requests </a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown01">
+								<li><a class="dropdown-item" href="#">Kiosk Services</a></li>
+								<li><a class="dropdown-item" href="#">Adding / Dropping</a></li>
+								<li><a class="dropdown-item" href="#">Evaluation</a></li>
+							</ul>
 						</li>
+
 
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Roles </a>
@@ -74,6 +83,17 @@
 								<li><a class="dropdown-item" href="#">Deans / Program Heads</a></li>
 								<li><a class="dropdown-item" href="#">Instructors</a></li>
 								<li><a class="dropdown-item" href="#">Students</a></li>
+							</ul>
+						</li>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Integrations </a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown01">
+								<li><a class="dropdown-item" href="{% url 'library:dashboard' %}">Library</a></li>
+								<li><a class="dropdown-item" href="#">Entrance Exam</a></li>
+								<li><a class="dropdown-item" href="#">School Intramurals</a></li>
+								<li><a class="dropdown-item" href="#">Attendance</a></li>
+
 							</ul>
 						</li>
 					</ul>

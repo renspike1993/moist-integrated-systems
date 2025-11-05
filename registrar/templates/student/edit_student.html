@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Edit Student{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <i class="bi bi-pencil fs-1 me-3"></i>
+    <div class="lh-1">
+        <h1 class="h6 mb-0 text-white lh-1">Edit Student</h1>
+        <small>Update student information</small>
+    </div>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Student</button>
+        <a href="{% url 'registrar:student_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
