@@ -42,8 +42,13 @@
 					<td>{{ folder.floor_number }}</td>
 					<td>{{ folder.max_size }}</td>
 					<td class="text-center">
+						{% if perms.registrar.view_folder %}
+						<a href="{% url 'registrar:edit_folder' folder.id %}" class="btn btn-sm btn-outline-primary" title="Edit">
+							<i class="bi bi-eye"></i>
+						</a>
+						{% endif %}
 						{% if perms.registrar.add_folder %}
-						<a href="{% url 'registrar:edit_folder' folder.id %}" class="btn btn-sm btn-outline-secondary" title="Edit">
+						<a href="{% url 'registrar:edit_folder' folder.id %}" class="btn btn-sm btn-outline-warning" title="Edit">
 							<i class="bi bi-pencil"></i>
 						</a>
 						{% endif %} {% if perms.registrar.delete_folder %}
