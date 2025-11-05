@@ -1,0 +1,9 @@
+# For registrar app
+python manage.py makemigrations registrar
+python manage.py migrate registrar --database=default
+
+
+
+# For library app
+python manage.py makemigrations library
+python manage.py migrate library --database=library
