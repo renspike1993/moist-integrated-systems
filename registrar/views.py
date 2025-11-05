@@ -1,7 +1,32 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import render, redirect
+from .forms import FolderForm
+from .models import Folder
+
 
 def get_dashboard(request):
-    return render(request,'base.html')
+    # Get all folders from the 'registrar' DB
+    folders = Folder.objects.all().order_by('-id')
 
-def get_program(request):
-    return render(request,'program/list.html')
+    # --- Pagination setup ---
+    paginator = Paginator(folders, 10)  # 10 folders per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+    }
+    return render(request, 'data-center/folders.html', context)
+
+
+def add_folder(request):
+    if request.method == 'POST':
+        form = FolderForm(request.POST)
+        if form.is_valid():
+            folder = form.save(commit=False)
+            folder.save()
+            return redirect('registrar:dashboard')
+    else:
+        form = FolderForm()
+
+    return render(request, 'data-center/add_folder.html', {'form': form})
