@@ -42,11 +42,16 @@ def add_curriculum(request):
         form = CurriculumForm()
     return render(request, 'curriculum/add_curriculum.html', {'form': form})
 
+
 # --- Edit Curriculum ---
 @login_required
 @permission_required('registrar.change_curriculum', login_url='accounts:login')
 def edit_curriculum(request, curriculum_id):
     curriculum = get_object_or_404(Curriculum, id=curriculum_id)
+
+    # Get all courses for this curriculum
+    courses = Course.objects.filter(curriculum=curriculum).order_by('year_level', 'semester_offered', 'course_code')
+
     if request.method == 'POST':
         form = CurriculumForm(request.POST, instance=curriculum)
         if form.is_valid():
@@ -55,7 +60,14 @@ def edit_curriculum(request, curriculum_id):
             return redirect('registrar:curriculum_list')
     else:
         form = CurriculumForm(instance=curriculum)
-    return render(request, 'curriculum/edit_curriculum.html', {'form': form, 'curriculum': curriculum})
+
+    context = {
+        'form': form,
+        'curriculum': curriculum,
+        'courses': courses,  # pass courses to the template
+    }
+    return render(request, 'curriculum/edit_curriculum.html', context)
+
 
 # --- Delete Curriculum ---
 @login_required

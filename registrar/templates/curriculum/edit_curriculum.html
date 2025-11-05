@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Add Curriculum{% endblock %}
+{% block title %}Edit Curriculum{% endblock %}
 {% block content %}
 <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
     <i class="bi bi-book fs-1 me-3"></i>
     <div class="lh-1">
-        <h1 class="h6 mb-0 text-white lh-1">Add Curriculum</h1>
-        <small>Create a new curriculum</small>
+        <h1 class="h6 mb-0 text-white lh-1">Edit Curriculum</h1>
+        <small>Modify curriculum details and its courses</small>
     </div>
 </div>
 
@@ -18,4 +18,42 @@
         </button>
     </form>
 </div>
+
+{% if courses %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6>Courses in this Curriculum</h6>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Course Code</th>
+                    <th>Title</th>
+                    <th>Lec Units</th>
+                    <th>Lab Units</th>
+                    <th>Year Level</th>
+                    <th>Semester</th>
+                    <th>Prerequisites</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ course.course_code }}</td>
+                    <td>{{ course.course_title }}</td>
+                    <td>{{ course.lec_units }}</td>
+                    <td>{{ course.lab_units }}</td>
+                    <td>{{ course.year_level }}</td>
+                    <td>{{ course.semester_offered }}</td>
+                    <td>{{ course.prerequisites }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<p class="text-muted">No courses are currently associated with this curriculum.</p>
+{% endif %}
 {% endblock %}
