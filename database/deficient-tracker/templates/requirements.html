@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header py-3" style="background-color: #2c3e50; color: white">
+        <h3 class="mb-0">
+          <i class="bi {% if applicant %}bi-pencil-square{% else %}bi-person-plus{% endif %} me-2"></i>
+          {{ 'Update Applicant' if applicant else 'Create New Applicant' }}
+        </h3>
+      </div>
+      <div class="card-body">
+        <form method="post" action="{{ url_for('applicants.update',id=applicant.id) }}" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Full Name</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-person-fill text-secondary"></i></span>
+              <input type="text" name="fullname" class="form-control"
+                value="{{ applicant.fullname if applicant else '' }}" required>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Program ID</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-journal-bookmark-fill text-secondary"></i></span>
+              <select name="program_id" id="" class="form-control" required>
+                <option value="" selected disabled>Select Program</option>
+                {% for prog in programs %}
+                <option value="{{ prog.program_id }}">{{ prog.program_name }}  ({{ prog.major }})</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <!-- <div class="col-md-6">
+            <label class="form-label fw-semibold">Major</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-mortarboard-fill text-secondary"></i></span>
+              <input type="text" name="major" class="form-control" 
+                     value="{{ applicant.major if applicant else '' }}" required>
+            </div>
+          </div> -->
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Contact Number</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-telephone-fill text-secondary"></i></span>
+              <input type="text" name="contact_number" class="form-control"
+                value="{{ applicant.contact_number if applicant else '' }}" required>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Email</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-envelope-fill text-secondary"></i></span>
+              <input type="email" name="email" class="form-control" value="{{ applicant.email if applicant else '' }}"
+                required>
+            </div>
+          </div>
+
+          <!-- <div class="col-md-6">
+            <label class="form-label fw-semibold">SO Number</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-file-earmark-text-fill text-secondary"></i></span>
+              <input type="text" name="SO" class="form-control" 
+                     value="{{ applicant.SO if applicant else '' }}" required>
+            </div>
+          </div> -->
+
+          <div class="col-12 mt-4 pt-3 border-top">
+            <button type="submit" class="btn btn-primary px-4">
+              <i class="bi bi-save-fill me-2"></i> Save
+            </button>
+
+            {% if applicant %}
+            <a href="{{ url_for('applicants.delete', id= applicant.id) }}" class="btn btn-danger px-3 ms-2"
+              onclick="return confirm('Delete this applicant?');">
+              <i class="bi bi-trash me-1"></i> Delete
+            </a>
+            {% endif %}
+
+            <a href="{{ url_for('applicants.index') }}" class="btn btn-outline-secondary px-4 ms-2">
+              <i class="bi bi-x-circle-fill me-2"></i> Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 
+<div class="col-lg-4">
+  <div class="card shadow-sm border-0">
+    <div class="card-header py-3" style="background-color: #2c3e50; color: white">
+      <h4 class="mb-0">
+        <i class="bi bi-list-check me-2"></i> S.O Application Requirements
+      </h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="accordion" id="requirementAccordion">
+        {% for req in requirements %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading{{ loop.index }}">
+            <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+              {{ req.doc_name }}
+            </button>
+          </h2>
+          <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" 
+            aria-labelledby="heading{{ loop.index }}" data-bs-parent="#requirementAccordion">
+            <div class="accordion-body">
+                <div class="d-grid gap-2">
+                  <a class="btn btn-danger d-flex align-items-center justify-content-center" href="http://127.0.0.1:5000/doc_deficiencies/{{req.doc_id}}/{{ applicant.id }}">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Create Deficiency Case
+                  </a>
+                </div>
+            </div>
+
+
+
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+   -->
+</div>
+
+<style>
+  .form-control,
+  .input-group-text {
+    height: 42px;
+  }
+
+  .input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+  }
+
+  .form-control {
+    border-left: none;
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(44, 62, 80, 0.1);
+    border-color: #ced4da;
+  }
+
+  .accordion-button:not(.collapsed) {
+    background-color: white;
+    box-shadow: none;
+  }
+
+  .accordion-button:focus {
+    box-shadow: none;
+  }
+
+  .accordion-item {
+    border-radius: 0 !important;
+  }
+
+  .btn-primary {
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+  }
+
+  .btn-primary:hover {
+    background-color: #1a252f;
+    border-color: #1a252f;
+  }
+</style>
+
+{% endblock %}

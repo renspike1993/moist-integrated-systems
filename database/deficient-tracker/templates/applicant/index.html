@@ -1,0 +1,209 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Header Section -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-2 text-dark">
+            <i class="bi bi-people me-2 text-primary"></i>Deficient Records
+        </h2>
+        <p class="text-muted mb-0 small">
+            <i class="bi bi-info-circle me-1"></i>Manage all applicant information and statuses
+        </p>
+    </div>
+    <a class="btn btn-primary btn-sm" href="{{ url_for('applicants.create') }}">
+        <i class="bi bi-plus-circle me-1"></i> Add Applicant
+    </a>
+</div>
+
+<!-- Main Table Card -->
+<div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="text-white" style="background-color: #2c3e50;">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Full Name</th>
+                        <th>Attempts</th>
+                        <th>Tracking ID</th>
+                        <th>Status</th>
+                        <th>Program</th>
+                        <th>Email</th>
+                        <th class="text-center pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for applicant in applicants %}
+                    <tr class="border-bottom border-light">
+                        <td class="ps-4 fw-semibold text-muted">{{ applicant.id }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="symbol symbol-35px symbol-circle me-3 bg-light-primary">
+                                    <span class="symbol-label text-primary fs-6 fw-bold">
+                                        {{ applicant.fullname[0]|upper }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark">{{ applicant.fullname }}</div>
+                                    <div class="text-muted small">Contact No: {{ applicant.contact_number }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <th>0</th>
+                        <td>
+
+                            {% if applicant.batch_id is number %}
+                                <a href="{{ url_for('batches.show_history_by_batch',batch_id =applicant.batch_id ) }}">
+                                    {{ applicant.batch_id|sha256 }}
+                                </a>
+                            {% else %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline-flex align-items-center py-1 px-3" 
+                                  style="background-color: rgba(251, 6, 22, 0.1); color: #9e0f0f; border: 1px solid rgba(0, 0, 0, 0.2);">
+<i class="bi bi-x-circle-fill me-1 fs-7"></i>
+                                <span class="small">Deficient</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border small">
+                                {{ applicant.program_id }}
+                            </span>
+                        </td>
+                        <td class="text-muted small">{{ applicant.email|truncate(20) }}</td>
+                        <td class="pe-4">
+                            <div class="d-flex justify-content-center gap-2">
+                                
+                                <a href="{{ url_for('applicants.get_all_requirements',id=applicant.id,program=applicant.program_id) }}" 
+                                   class="btn btn-sm btn-outline-primary d-flex align-items-center py-1 px-2"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   title="View full profile">
+                                    <i class="bi bi-file-earmark-text me-1 fs-7"></i> 
+                                    <span class="small">Profile</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function convert(batchId){
+        return btoa(batchId);
+    }
+</script>
+<!-- Pagination -->
+{% if total_pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link border-0 rounded-2 mx-1" href="?page={{ page - 1 }}">
+                <i class="bi bi-chevron-left small"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link border-0 rounded-2 mx-1">
+                <i class="bi bi-chevron-left small"></i>
+            </span>
+        </li>
+        {% endif %}
+
+        {% for p in range(1, total_pages + 1) %}
+        <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link border-0 rounded-2 mx-1" href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+
+        {% if page < total_pages %}
+        <li class="page-item">
+            <a class="page-link border-0 rounded-2 mx-1" href="?page={{ page + 1 }}">
+                <i class="bi bi-chevron-right small"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link border-0 rounded-2 mx-1">
+                <i class="bi bi-chevron-right small"></i>
+            </span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<style>
+    .table {
+        --bs-table-hover-bg: rgba(52, 152, 219, 0.03);
+        font-size: 0.975rem;
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(52, 152, 219, 0.03);
+        box-shadow: inset 0 0 0 1px rgba(52, 152, 219, 0.1);
+    }
+    
+    .symbol {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .symbol-35px {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .symbol-circle {
+        border-radius: 50%;
+    }
+    
+    .badge {
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #2c3e50;
+        color: white;
+    }
+    
+    .page-link {
+        color: #495057;
+        min-width: 32px;
+        text-align: center;
+        padding: 0.375rem 0.5rem;
+    }
+    
+    .page-link:hover {
+        color: #3498db;
+        background-color: #f8f9fa;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+// Enable tooltips
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+})
+</script>
+{% endblock %}

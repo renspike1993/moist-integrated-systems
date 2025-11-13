@@ -1,0 +1,130 @@
+
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold text-dark mb-0">
+    <i class="bi bi-file-earmark-text me-2"></i>
+    Submitted Requirements ({{ applicant.fullname }} - {{ applicant.program_id }})
+  </h2>
+</div>
+
+<div class="accordion shadow-sm" id="requirementAccordion">
+  {% for req in requirements %}
+  <div class="accordion-item border-0 mb-3">
+    <h2 class="accordion-header" id="heading{{ loop.index }}">
+      <button
+        class="accordion-button {% if not loop.first %}collapsed{% endif %} py-3"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapse{{ loop.index }}"
+        style="background-color: #f8f9fa;"
+      >
+        <span class="badge bg-primary rounded-pill me-3">{{ loop.index }}</span>
+        <span class="fw-semibold">{{ req.doc_name }}</span>
+      </button>
+    </h2>
+    <div
+      id="collapse{{ loop.index }}"
+      class="accordion-collapse collapse {% if loop.first %}show{% endif %}"
+      data-bs-parent="#requirementAccordion"
+    >
+      <div class="accordion-body pt-3 pb-4">
+        {% if req.deficiencies %}
+        <div class="alert alert-info mb-4">
+          <i class="bi bi-exclamation-circle-fill me-2"></i>
+          Found {{ req.deficiencies|length }} deficiency case(s) for this document
+        </div>
+
+        <div class="row g-4">
+          {% for d in req.deficiencies %}
+          <div class="col-12">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header py-3" style="background-color: #2c3e50; color: white;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong>Case #{{ loop.index }}</strong>
+                  {% if d.severity == 'Critical' %}
+                  <span class="badge bg-danger">Critical</span>
+                  {% elif d.severity == 'High' %}
+                  <span class="badge bg-warning">High</span>
+                  {% elif d.severity == 'Medium' %}
+                  <span class="badge bg-secondary">Medium</span>
+                  {% elif d.severity == 'Low' %}
+                  <span class="badge bg-success">Low</span>
+                  {% else %}
+                  <span class="badge bg-secondary">N/A</span>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="card-body">
+                <div class="mb-4">
+                  <h6 class="text-muted text-uppercase small mb-2">Description</h6>
+                  <p class="card-text ps-3">
+                    - <u> {{ d.description or 'No description provided' }}</u>
+                  </p>
+                </div>
+
+                <div class="mb-4">
+                  <h6 class="text-muted text-uppercase small mb-2">Reasons</h6>
+                  <p class="card-text ps-3">
+                     {{d.acceptable_excuse}}
+                  </p>
+                </div>
+
+
+                <div class="mb-4">
+                  <h6 class="text-muted text-uppercase small mb-2">Recommended Solution</h6>
+                  <p class="card-text ps-3">                    
+                  <ul>
+                    <li>{{ d.resolution_statement or 'No solution provided' }}</li>
+                  </ul>  
+                  </p>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 pt-2">
+                  <button class="btn btn-outline-primary">
+                    <i class="bi bi-eye-fill me-1"></i> View Details
+                  </button>
+                  <a class="btn btn-danger" 
+                     href="http://127.0.0.1:5000/applicant_deficiencies/insert/{{d.id}}/{{applicant.id}}" 
+                     onclick="return confirm('Are you sure you want to add this case?')">
+                    <i class="bi bi-check-circle-fill me-1"></i> Select Case
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-success mb-0">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          No deficiencies reported for this document
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<style>
+  .accordion-button:not(.collapsed) {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    box-shadow: none;
+  }
+  
+  .accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+  }
+  
+  .accordion-body {
+    background-color: #fff;
+  }
+</style>
+
+{% endblock %}

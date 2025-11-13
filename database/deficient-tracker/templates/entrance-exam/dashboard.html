@@ -1,0 +1,234 @@
+{% extends "layout-exam.html" %}
+{% block content %}
+
+<div class="container-fluid px-4 py-4">
+
+
+    <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0 font-weight-light">Examination Leaderboard </h4>
+                <span class="badge badge-pill badge-light">Top Performers</span>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="py-3 text-center" style="width: 60px;">Rank</th>
+                            <th class="py-3">Student Name</th>
+                            <th class="py-3">Program</th>
+                            <th class="py-3 text-center">English</th>
+                            <th class="py-3 text-center">Math</th>
+                            <th class="py-3 text-center">Science</th>
+                            <th class="py-3 text-center">Abstract</th>
+                            <th class="py-3 text-center">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in data %}
+                        <tr class="border-bottom">
+                            <td class="text-center">
+                                <span class="badge badge-pill 
+                                    {% if loop.index == 1 %}badge-gold
+                                    {% elif loop.index == 2 %}badge-silver
+                                    {% elif loop.index == 3 %}badge-bronze
+                                    {% else %}badge-secondary{% endif %}">
+                                    {{ loop.index }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm mr-3">
+                                        <div class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                            {{ student.exmne_fullname|first|upper }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ student.exmne_fullname }}</h6>
+                                        <small class="text-muted">ID: {{ student.axmne_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-soft-primary">{{ student.cou_name }}</span>
+                            </td>
+                            <td class="text-center">{{ student.english_score }}</td>
+                            <td class="text-center">{{ student.math_score }}</td>
+                            <td class="text-center">{{ student.science_score }}</td>
+                            <td class="text-center">{{ student.abstract_score }}</td>
+                            <td class="text-center font-weight-bold text-primary">{{ student.total_score }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Last updated: {{ now }}</small>
+                <button class="btn btn-sm btn-outline-primary">Export Results</button>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0 font-weight-light">Top 10 most answered questions </h4>
+                <span class="badge badge-pill badge-light">Top Performers</span>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="py-3 text-center" style="width: 60px;">Rank</th>
+                            <th class="py-3">Student Name</th>
+                            <th class="py-3">Program</th>
+                            <th class="py-3 text-center">English</th>
+                            <th class="py-3 text-center">Math</th>
+                            <th class="py-3 text-center">Science</th>
+                            <th class="py-3 text-center">Abstract</th>
+                            <th class="py-3 text-center">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in data %}
+                        <tr class="border-bottom">
+                            <td class="text-center">
+                                <span class="badge badge-pill 
+                                    {% if loop.index == 1 %}badge-gold
+                                    {% elif loop.index == 2 %}badge-silver
+                                    {% elif loop.index == 3 %}badge-bronze
+                                    {% else %}badge-secondary{% endif %}">
+                                    {{ loop.index }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm mr-3">
+                                        <div class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                            {{ student.exmne_fullname|first|upper }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ student.exmne_fullname }}</h6>
+                                        <small class="text-muted">ID: {{ student.axmne_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-soft-primary">{{ student.cou_name }}</span>
+                            </td>
+                            <td class="text-center">{{ student.english_score }}</td>
+                            <td class="text-center">{{ student.math_score }}</td>
+                            <td class="text-center">{{ student.science_score }}</td>
+                            <td class="text-center">{{ student.abstract_score }}</td>
+                            <td class="text-center font-weight-bold text-primary">{{ student.total_score }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Last updated: {{ now }}</small>
+                <button class="btn btn-sm btn-outline-primary">Export Results</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .card {
+        border-radius: 12px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 8px 25px 0 rgba(34, 41, 47, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        border-bottom: none;
+    }
+    
+    /* .table-hover tbody tr:hover {
+        background-color: rgba(52, 152, 219, 0.05);
+        transform: scale(1.005);
+    }
+     */
+    .table th {
+        border-top: none;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #6c757d;
+    }
+    
+    .badge-gold {
+        background-color: #FFD700;
+        color: #000;
+    }
+    
+    .badge-silver {
+        background-color: #C0C0C0;
+        color: #000;
+    }
+    
+    .badge-bronze {
+        background-color: #CD7F32;
+        color: #000;
+    }
+    
+    .badge-soft-primary {
+        background-color: rgba(52, 152, 219, 0.1);
+        color: #3498db;
+    }
+    
+    .avatar-sm {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .avatar-title {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+    
+    .border-bottom {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03) !important;
+    }
+    
+    @media (max-width: 768px) {
+        .table-responsive {
+            border: none;
+        }
+        
+        .card-header h4 {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+
+{% endblock %}

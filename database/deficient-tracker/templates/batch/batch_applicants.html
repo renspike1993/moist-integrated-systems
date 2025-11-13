@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1" style="color: #2c3e50;">
+            <i class="bi bi-person-plus me-2"></i>Add Deficient Students
+        </h2>
+        <p class="text-muted mb-0">Indorsement Case ID: <span class="badge bg-primary">{{ batch_id }}</span></p>
+    </div>
+    <a href="{{ url_for('batches.response',batch_id = batch_id ) }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i> Back to Response
+    </a>
+</div>
+
+<div class="card shadow-sm border-0 overflow-hidden mb-4">
+    <div class="card-header bg-light">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-primary">
+                <i class="bi bi-people-fill me-2"></i>Student Records
+            </h5>
+            <div class="input-group" style="max-width: 300px;">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search students...">
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="text-white" style="background-color: #2c3e50;">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Student Name</th>
+                        <th>Degree</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th class="text-center pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for applicant in applicants %}
+                    <tr style="border-left: 4px solid transparent; transition: all 0.2s;">
+                        <td class="ps-4 fw-semibold">{{ applicant.id }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-person-fill text-muted"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0">{{ applicant.fullname }}</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark">
+                                {{ applicant.program_id }} 
+                            </span>
+                        </td>
+                        <td>{{ applicant.contact_number or 'N/A' }}</td>
+                        <td>
+                            {% if applicant.email %}
+                            <a href="mailto:{{ applicant.email }}" class="text-primary">
+                                {{ applicant.email|truncate(20) }}
+                            </a>
+                            {% else %}
+                            N/A
+                            {% endif %}
+                        </td>
+                        <td class="pe-4">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ url_for('batches.update_applicant_batch', batch_id=batch_id, applicant_id=applicant.id) }}"
+                                   class="btn btn-sm btn-danger d-flex align-items-center"
+                                   data-bs-toggle="tooltip" data-bs-placement="top" title="Mark as Deficient"
+                                   onclick="return confirm('Mark this student as deficient for indorsement case {{ batch_id }}?');">
+                                    <i class="bi bi-exclamation-triangle-fill me-1"></i> Deficient
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+{% if total_pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page - 1 }}">
+                <i class="bi bi-chevron-left"></i> Previous
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">
+                <i class="bi bi-chevron-left"></i> Previous
+            </span>
+        </li>
+        {% endif %}
+
+        {% for p in range(1, total_pages + 1) %}
+        <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="?page={{ p }}">
+                {{ p }}
+            </a>
+        </li>
+        {% endfor %}
+
+        {% if page < total_pages %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page + 1 }}">
+                Next <i class="bi bi-chevron-right"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">
+                Next <i class="bi bi-chevron-right"></i>
+            </span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(52, 152, 219, 0.05);
+        border-left: 4px solid #3498db !important;
+    }
+    
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .avatar-sm {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .badge {
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #2c3e50;
+        border-color: #2c3e50;
+        box-shadow: 0 2px 5px rgba(44, 62, 80, 0.2);
+    }
+    
+    .page-link {
+        color: #2c3e50;
+        border-color: #ddd;
+        padding: 0.5rem 0.75rem;
+        min-width: 40px;
+        text-align: center;
+    }
+    
+    .page-link:hover {
+        color: #3498db;
+    }
+</style>
+
+{% endblock %}
