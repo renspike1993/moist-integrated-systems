@@ -65,6 +65,10 @@
 							<a class="nav-link {% if request.path == '/registrar/promotional-report-summary/' %}active{% endif %}" href="{% url 'registrar:promotional_report_summary' %}"> Promotional Reports </a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link {% if request.path == '/registrar/system-integrations/' %}active{% endif %}" href="{% url 'registrar:system_integrations' %}"> System Integrations </a>
+						</li>
+
+						<li class="nav-item">
 							<a class="nav-link {% if request.path == '/registrar/programs/' %}active{% endif %}" href="{% url 'registrar:programs' %}"> Programs </a>
 						</li>
 
@@ -84,17 +88,6 @@
 							</ul>
 						</li>
 						{% if user.is_authenticated and user.is_superuser %}
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">System Integrations </a>
-							<ul class="dropdown-menu" aria-labelledby="dropdown01">
-								<li><a class="dropdown-item" href="{% url 'library:dashboard' %}">Library (OPAC)</a></li>
-								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Entrance Exam</a></li>
-								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Intramurals</a></li>
-								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Student Government Election (CSG)</a></li>
-								<li><a class="dropdown-item" href="{% url 'accounts:login' %}">Attendance Logs (QR-CODE)</a></li>
-								<li><a class="dropdown-item" href="{% url 'admin:index' %}">System Administrator</a></li>
-							</ul>
-						</li>
 
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Reports & Simulations</a>

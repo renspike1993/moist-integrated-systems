@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import data_center,student,curriculum,program, promotional_report
+from .views import data_center,student,curriculum,program, promotional_report, system_integ
 
 app_name = "registrar"
 
@@ -17,6 +17,8 @@ urlpatterns = [
     path('folder/<int:folder_id>/add-student/', data_center.add_student_to_folder, name='add_student_to_folder'),
     path('remove-student/<int:student_id>/', data_center.remove_student_from_folder, name='remove_student_from_folder'),
 
+
+    path('system-integrations/', system_integ.system_integrations , name='system_integrations'),
 
 
     # Student routes

@@ -36,7 +36,9 @@
 					<td>{{ student.first_name }}</td>
 					<td>
 						<a href="{% url 'registrar:remove_student_from_folder' student.id %}" class="btn btn-danger btn-sm"> <i class="bi bi-x-circle me-1"></i> Remove From this Folder </a>
-					</td>
+						<a href="" class="btn btn-warning btn-sm"> <i class="bi bi-pencil me-1"></i> Move to folder </a>
+
+                    </td>
 				</tr>
 				{% endfor %}
 			</tbody>
