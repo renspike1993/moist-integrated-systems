@@ -1,88 +1,77 @@
-{% extends "base.html" %}
-{% block title %}Edit Folder | Data Center{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Edit Folder | Data Center{% endblock %} {% block content %}
 
 <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
-    <i class="bi bi-pencil-square fs-1 me-3"></i>
-    <div class="lh-1">
-        <h1 class="h6 mb-0 text-white lh-1">Edit Folder</h1>
-        <small>Update folder details</small>
-    </div>
+	<i class="bi bi-pencil-square fs-1 me-3"></i>
+	<div class="lh-1">
+		<h1 class="h6 mb-0 text-white lh-1">Edit Folder</h1>
+		<small>Update folder details</small>
+	</div>
 </div>
 
 <div class="my-3 p-4 bg-body rounded shadow-sm">
-    <form method="post" novalidate>
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="id_folder_name" class="form-label">Folder Name</label>
-            {{ form.folder_name }}
-        </div>
+	<form method="post" novalidate>
+		{% csrf_token %}
+		<div class="mb-3">
+			<label for="id_folder_name" class="form-label">Folder Name</label>
+			{{ form.folder_name }}
+		</div>
 
-        <div class="mb-3">
-            <label for="id_floor_number" class="form-label">Floor Number</label>
-            {{ form.floor_number }}
-        </div>
+		<div class="mb-3">
+			<label for="id_floor_number" class="form-label">Floor Number</label>
+			{{ form.floor_number }}
+		</div>
 
-        <div class="mb-3">
-            <label for="id_max_size" class="form-label">Max Size (GB)</label>
-            {{ form.max_size }}
-        </div>
+		<div class="mb-3">
+			<label for="id_max_size" class="form-label">Max Size (GB)</label>
+			{{ form.max_size }}
+		</div>
 
-        <div class="d-flex justify-content-end">
-            <a href="{% url 'registrar:dashboard' %}" class="btn btn-secondary me-2">
-                <i class="bi bi-arrow-left"></i> Cancel
-            </a>
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save"></i> Save Changes
-            </button>
-        </div>
-    </form>
+		<div class="d-flex justify-content-end">
+			<a href="{% url 'registrar:dashboard' %}" class="btn btn-secondary me-2"> <i class="bi bi-arrow-left"></i> Cancel </a>
+			<button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Changes</button>
+		</div>
+	</form>
 </div>
 
 <!-- Students Table -->
 {% if students %}
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-    <!-- Section Header -->
-    <div class="d-flex align-items-center mb-3">
-        <i class="bi bi-people-fill fs-4 me-2 text-primary"></i>
-        <h6 class="mb-0">Students in this Folder</h6>
-    </div>
+	<!-- Section Header -->
+	<div class="d-flex align-items-center mb-3">
+		<i class="bi bi-people-fill fs-4 me-2 text-primary"></i>
+		<h6 class="mb-0">Students in this Folder</h6>
+	</div>
 
-    <!-- Table -->
-    <div class="table-responsive">
-        <table class="table table-hover table-striped align-middle">
-            <thead class="table-primary">
-                <tr>
-                    <th>#</th>
-                    <th>Student ID</th>
-                    <th>Full Name</th>
-                    <th>Course</th>
-                    <th>Year Level</th>
-                    <th>Section</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in students %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ student.student_id }}</td>
-                    <td>{{ student.full_name }}</td>
-                    <td>{{ student.course }}</td>
-                    <td>{{ student.year_level }}</td>
-                    <td>{{ student.section }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+	<!-- Table -->
+	<div class="table-responsive">
+		<table class="table table-hover table-striped align-middle">
+			<thead class="table-primary">
+				<tr>
+					<th>#</th>
+					<th>Student ID</th>
+					<th>Full Name</th>
+					<th>Section</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for student in students %}
+				<tr>
+					<td>{{ forloop.counter }}</td>
+					<td>{{ student.last_name }}</td>
+					<td>{{ student.first_name }}</td>
+					<td>
+						<a href="" class="btn btn-danger btn-sm"> <i class="bi bi-x-circle me-1"></i> Remove From this Folder </a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </div>
 
 {% else %}
 <div class="my-3 p-3 bg-body rounded shadow-sm text-center text-muted">
-    <i class="bi bi-info-circle me-1"></i>
-    No students are currently assigned to this folder.
+	<i class="bi bi-info-circle me-1"></i>
+	No students are currently assigned to this folder.
 </div>
-{% endif %}
-
-{% endblock %}
+{% endif %} {% endblock %}

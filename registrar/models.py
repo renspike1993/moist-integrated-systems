@@ -81,6 +81,7 @@ class PromotionalReport(models.Model):
 
 class Student(models.Model):
     # Link student to a folder
+
     folder = models.ForeignKey(
         Folder, 
         on_delete=models.SET_NULL,  # choose what happens when folder is deleted

@@ -1,5 +1,5 @@
 import csv
-from django.db.models import Count
+from django.db.models import Count,Q
 
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
@@ -71,6 +71,8 @@ def add_folder(request):
         form = FolderForm(request.POST)
         if form.is_valid():
             folder = form.save(commit=False)
+            # Assign the current user as the folder owner
+            folder.folder_owner = request.user
             folder.save()
             messages.success(request, "Folder added successfully!")
             return redirect('registrar:dashboard')
@@ -155,3 +157,55 @@ def import_folders_from_csv(request):
         return redirect('registrar:dashboard')
 
     return render(request, 'data-center/import_folders.html')
+
+
+
+permission_required('registrar.change_student', login_url='accounts:login')
+def add_student_to_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id)
+    query = request.GET.get('q', '')
+
+    # Base queryset: students in default folder OR unassigned
+    students_qs = Student.objects.filter(Q(folder_id=99999) | Q(folder__isnull=True)).order_by('last_name', 'first_name')
+
+    # Apply search if query exists (split by space)
+    if query:
+        terms = query.strip().split()
+        for term in terms:
+            students_qs = students_qs.filter(
+                Q(last_name__icontains=term) |
+                Q(first_name__icontains=term) |
+                Q(middle_name__icontains=term)
+            )
+
+    # Pagination
+    paginator = Paginator(students_qs, 10)  # 10 students per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Handle adding a student
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        student = get_object_or_404(Student, id=student_id)
+        student.folder = folder
+        student.save()
+        messages.success(request, f"{student.full_name} has been successfully added to '{folder.folder_name}'.")
+        return redirect('registrar:add_student_to_folder', folder_id=folder.id)
+
+    context = {
+        'folder': folder,
+        'students': page_obj,
+        'query': query,
+    }
+    return render(request, 'data-center/add_student_to_folder.html', context)
+
+@login_required
+@permission_required('registrar.change_student', login_url='accounts:login')
+def remove_student_from_folder(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    student.folder_id = 99999  # set to default folder
+    student.save()
+    messages.success(request, f"{student.full_name} has been removed from the folder.")
+
+    # Redirect back to the previous page
+    return redirect(request.META.get('HTTP_REFERER', 'registrar:student_list'))

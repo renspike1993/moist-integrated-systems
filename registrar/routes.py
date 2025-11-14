@@ -14,6 +14,10 @@ urlpatterns = [
     path('data-center/edit/<int:folder_id>/', data_center.edit_folder, name='edit_folder'),
     path('data-center/delete/<int:folder_id>/', data_center.delete_folder, name='delete_folder'),
     path('data-center/import', data_center.import_folders_from_csv, name='import'),
+    path('folder/<int:folder_id>/add-student/', data_center.add_student_to_folder, name='add_student_to_folder'),
+    path('remove-student/<int:student_id>/', data_center.remove_student_from_folder, name='remove_student_from_folder'),
+
+
 
     # Student routes
     path('students/', student.student_list, name='student_list'),
@@ -21,7 +25,6 @@ urlpatterns = [
     path('students/edit/<int:student_id>/', student.edit_student, name='edit_student'),
     path('students/delete/<int:student_id>/', student.delete_student, name='delete_student'),
     path('students/import/', student.import_students_from_csv, name='import_students'),
-
     # Program routes
     path('programs/', program.get_programs, name='programs'),
     path('programs/add/', program.add_program, name='add_program'),

@@ -1,11 +1,11 @@
 {% extends "base.html" %} {% block title %}Edit Folder | Data Center{% endblock %} {% block content %}
 
-<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
-	<i class="bi bi-pencil-square fs-1 me-3"></i>
+<div class="d-flex align-items-center justify-content-between p-3 my-3 text-white bg-purple rounded shadow-sm">
 	<div class="lh-1">
 		<h1 class="h6 mb-0 text-white lh-1">View Folder</h1>
 		<small>List of students inside this Folder</small>
 	</div>
+	<a href="{% url 'registrar:add_student_to_folder' folder.id %}" class="btn btn-light"> <i class="bi bi-person-plus me-1"></i> Add Student </a>
 </div>
 
 <!-- Students Table -->
@@ -35,7 +35,7 @@
 					<td>{{ student.last_name }}</td>
 					<td>{{ student.first_name }}</td>
 					<td>
-						<a href="" class="btn btn-danger btn-sm"> <i class="bi bi-x-circle me-1"></i> Remove From this Folder </a>
+						<a href="{% url 'registrar:remove_student_from_folder' student.id %}" class="btn btn-danger btn-sm"> <i class="bi bi-x-circle me-1"></i> Remove From this Folder </a>
 					</td>
 				</tr>
 				{% endfor %}

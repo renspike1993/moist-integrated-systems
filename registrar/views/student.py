@@ -17,29 +17,33 @@ from ..models import Folder, Student
 @login_required
 @permission_required('registrar.view_student', login_url='accounts:login')
 def student_list(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get('q', '').strip()
+    
+    # Base queryset with folder prefetch to reduce queries
+    students_qs = Student.objects.select_related('folder').all().order_by('last_name', 'first_name')
 
+    # If there's a search query
     if query:
-        students = Student.objects.filter(
-            Q(last_name__icontains=query) |
-            Q(first_name__icontains=query) |
-            Q(middle_name__icontains=query) |
-            Q(folder__folder_name__icontains=query)
-        ).order_by('last_name', 'first_name')
-    else:
-        students = Student.objects.all().order_by('last_name', 'first_name')
+        terms = query.split()  # split by space
+        q_objects = Q()  # empty Q object
+        for term in terms:
+            q_objects &= (Q(last_name__icontains=term) |
+                          Q(first_name__icontains=term) |
+                          Q(middle_name__icontains=term) |
+                          Q(folder__folder_name__icontains=term))
+        students_qs = students_qs.filter(q_objects)
 
     # Pagination
-    paginator = Paginator(students, 10)  # 10 students per page
+    paginator = Paginator(students_qs, 10)  # 10 students per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     context = {
         'page_obj': page_obj,
-        'query': query
+        'query': query,
     }
-    return render(request, 'student/students.html', context)
 
+    return render(request, 'student/students.html', context)
 # ----------------------
 # Add student
 # ----------------------
