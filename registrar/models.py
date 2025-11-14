@@ -1,18 +1,22 @@
 from django.db import models
-
+from django.contrib.auth.models import User  # import User model
 
 class Folder(models.Model):
     folder_name = models.CharField(max_length=100)
     floor_number = models.IntegerField()
-    max_size =  models.IntegerField()
+    max_size = models.IntegerField()
+    folder_owner = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='folders'
+    )
 
     def __str__(self):
         return self.folder_name
 
+
     class Meta:
         app_label = 'registrar'
-
-
 
 
 class Program(models.Model):
@@ -52,6 +56,27 @@ class Course(models.Model):
     
     class Meta:
         app_label = 'registrar'
+
+
+class PromotionalReport(models.Model):
+    year = models.CharField(max_length=100)
+    semester = models.TextField(blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    sub_code = models.CharField(max_length=100, blank=True, null=True)
+    sub_desc = models.CharField(max_length=200, blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True, null=True)
+    units = models.IntegerField(default=0)
+    source_file = models.CharField(max_length=200, blank=True, null=True)   
+
+
+
+    def __str__(self):
+        return self.first_name
+
+    class Meta:
+        app_label = 'registrar'
+
 
 
 class Student(models.Model):

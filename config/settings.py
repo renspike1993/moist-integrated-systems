@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,12 +75,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {  # Registrar also acts as default
+    'default': {  # Registrar
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'registrar',
         'USER': 'postgres',
-        'PASSWORD': 'renspike!',
+        'PASSWORD': os.getenv('db_pass', ''),
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -88,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'library',
         'USER': 'postgres',
-        'PASSWORD': 'renspike!',
+        'PASSWORD': os.getenv('db_pass', ''),
         'HOST': 'localhost',
         'PORT': '5432',
     },

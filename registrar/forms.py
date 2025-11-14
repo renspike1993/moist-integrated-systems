@@ -64,3 +64,10 @@ class CurriculumForm(forms.ModelForm):
             'program': forms.Select(attrs={'class': 'form-control'}),
             'major': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Major (optional)'}),
         }
+
+class PromotionalReportImportForm(forms.Form):
+    file = forms.FileField(
+        label="Select CSV file",
+        help_text="CSV file with columns: year, semester, first_name, last_name, sub_code, sub_desc, grade, units"
+    )
+        

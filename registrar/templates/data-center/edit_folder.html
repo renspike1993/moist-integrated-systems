@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-
 {% block title %}Edit Folder | Data Center{% endblock %}
 
 {% block content %}
+
 <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
     <i class="bi bi-pencil-square fs-1 me-3"></i>
     <div class="lh-1">
@@ -39,4 +39,50 @@
         </div>
     </form>
 </div>
+
+<!-- Students Table -->
+{% if students %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <!-- Section Header -->
+    <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-people-fill fs-4 me-2 text-primary"></i>
+        <h6 class="mb-0">Students in this Folder</h6>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                    <th>Course</th>
+                    <th>Year Level</th>
+                    <th>Section</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ student.student_id }}</td>
+                    <td>{{ student.full_name }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.year_level }}</td>
+                    <td>{{ student.section }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% else %}
+<div class="my-3 p-3 bg-body rounded shadow-sm text-center text-muted">
+    <i class="bi bi-info-circle me-1"></i>
+    No students are currently assigned to this folder.
+</div>
+{% endif %}
+
 {% endblock %}

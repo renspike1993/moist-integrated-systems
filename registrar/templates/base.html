@@ -55,19 +55,21 @@
 						<li class="nav-item">
 							<a class="nav-link {% if request.path == '/registrar/' %}active{% endif %}" href="{% url 'registrar:dashboard' %}"> Data Center </a>
 						</li>
+						<li class="nav-item">
+							{% if perms.registrar.view_student %}
+							<a class="nav-link {% if request.path == '/registrar/students/' %}active{% endif %}" href="{% url 'registrar:student_list' %}"> Students </a>
+							{% endif %}
+						</li>
 
+						<li class="nav-item">
+							<a class="nav-link {% if request.path == '/registrar/promotional-report-summary/' %}active{% endif %}" href="{% url 'registrar:promotional_report_summary' %}"> Promotional Reports </a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link {% if request.path == '/registrar/programs/' %}active{% endif %}" href="{% url 'registrar:programs' %}"> Programs </a>
 						</li>
 
 						<li class="nav-item">
 							<a class="nav-link {% if request.path == '/registrar/curriculums/' %}active{% endif %}" href="{% url 'registrar:curriculum_list' %}"> Curriculums </a>
-						</li>
-
-						<li class="nav-item">
-							{% if perms.registrar.view_student %}
-							<a class="nav-link {% if request.path == '/registrar/students/' %}active{% endif %}" href="{% url 'registrar:student_list' %}"> Students </a>
-							{% endif %}
 						</li>
 
 						<li class="nav-item dropdown">

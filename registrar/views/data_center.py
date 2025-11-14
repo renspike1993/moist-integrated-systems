@@ -1,4 +1,6 @@
 import csv
+from django.db.models import Count
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
@@ -8,16 +10,22 @@ from ..models import Folder, Student
 from django.contrib.auth.decorators import login_required, permission_required
 
 # --- Dashboard ---
+
 @login_required
 @permission_required('registrar.view_folder', login_url='accounts:login')
 def get_dashboard(request):
     query = request.GET.get('q', '')
 
-    if query:
-        folders = Folder.objects.filter(folder_name__icontains=query).order_by('id')
-    else:
-        folders = Folder.objects.all().order_by('id')
+    # Annotate folders with student_count
+    folders = Folder.objects.annotate(
+        student_count=Count('students')
+    ).order_by('id')
 
+    # Apply search filter if query exists
+    if query:
+        folders = folders.filter(folder_name__icontains=query)
+
+    # Pagination
     paginator = Paginator(folders, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -26,8 +34,34 @@ def get_dashboard(request):
         'page_obj': page_obj,
         'query': query,
     }
+
     return render(request, 'data-center/folders.html', context)
 
+# --- View folder ---
+@login_required
+@permission_required('registrar.change_folder', login_url='accounts:login')
+def view_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id)
+
+    # Get all students inside this folder
+    students = folder.students.all()  # via related_name="students"
+
+    if request.method == 'POST':
+        form = FolderForm(request.POST, instance=folder)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Folder edited successfully!")
+            return redirect('registrar:dashboard')
+    else:
+        form = FolderForm(instance=folder)
+
+    context = {
+        'form': form,
+        'folder': folder,
+        'students': students,
+    }
+
+    return render(request, 'data-center/view_folder.html', context)
 
 # --- Add folder ---
 @login_required
@@ -52,17 +86,25 @@ def add_folder(request):
 def edit_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id)
 
+    # Get all students inside this folder
+    students = folder.students.all()  # via related_name="students"
+
     if request.method == 'POST':
         form = FolderForm(request.POST, instance=folder)
         if form.is_valid():
             form.save()
-            messages.success(request, "Folder Edited successfully!")
+            messages.success(request, "Folder edited successfully!")
             return redirect('registrar:dashboard')
     else:
         form = FolderForm(instance=folder)
 
-    return render(request, 'data-center/edit_folder.html', {'form': form, 'folder': folder})
+    context = {
+        'form': form,
+        'folder': folder,
+        'students': students,
+    }
 
+    return render(request, 'data-center/edit_folder.html', context)
 
 # --- Delete folder ---
 @login_required

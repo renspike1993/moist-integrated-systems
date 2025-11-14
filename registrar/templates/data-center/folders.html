@@ -30,7 +30,8 @@
 					<th scope="col">#</th>
 					<th scope="col">Folder Name</th>
 					<th scope="col">Floor #</th>
-					<th scope="col">Max Size (GB)</th>
+					<th scope="col">Capacity</th>
+					<th scope="col">Owner</th>
 					<th scope="col" class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -40,14 +41,15 @@
 					<td>{{ forloop.counter0|add:page_obj.start_index|add:"-1" }}</td>
 					<td>{{ folder.folder_name }}</td>
 					<td>{{ folder.floor_number }}</td>
-					<td>{{ folder.max_size }}</td>
+					<td>{{ folder.student_count }}/{{ folder.max_size }}</td>
+					<td>{{ folder.folder_owner.username }}</td>
+
 					<td class="text-center">
 						{% if perms.registrar.view_folder %}
-						<a href="{% url 'registrar:edit_folder' folder.id %}" class="btn btn-sm btn-outline-primary" title="Edit">
-							<i class="bi bi-eye"></i>
+						<a href="{% url 'registrar:view_folder' folder.id %}" class="btn btn-sm btn-outline-primary" title="Edit">
+							<i class="bi bi-folder-plus"></i>
 						</a>
-						{% endif %}
-						{% if perms.registrar.add_folder %}
+						{% endif %} {% if perms.registrar.add_folder %}
 						<a href="{% url 'registrar:edit_folder' folder.id %}" class="btn btn-sm btn-outline-warning" title="Edit">
 							<i class="bi bi-pencil"></i>
 						</a>

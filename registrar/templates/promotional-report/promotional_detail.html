@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Promotional Records - {{ semester }} {{ year }}{% endblock %}
+
+{% block content %}
+
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <i class="bi bi-file-earmark-text fs-1 me-3"></i>
+    <div class="lh-1">
+        <h1 class="h6 mb-0 text-white lh-1">Promotional Records - {{ semester }} {{ year }}</h1>
+        <small>List of Students along with the subjects they have enrolled.</small>
+    </div>
+</div>
+
+<div class="container my-4">
+    <h3></h3>
+
+    <!-- Search form -->
+    <form method="get" class="mb-3 d-flex">
+        <input type="text" name="q" value="{{ query }}" class="form-control me-2" placeholder="Search by first or last name">
+        <button type="submit" class="btn btn-primary me-2">Search</button>
+        <a href="{% url 'registrar:promotional_detail' year semester %}" class="btn btn-secondary">Reset</a>
+    </form>
+
+    <div class="table-responsive my-3">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Subject Code</th>
+                    <th>Subject Description</th>
+                    <th>Grades</th>
+                    <th>Units</th>
+                    <th>Source File</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in page_obj %}
+                <tr>
+                    <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                    <td>{{ row.first_name }}</td>
+                    <td>{{ row.last_name }}</td>
+                    <td>{{ row.sub_code }}</td>
+                    <td>{{ row.sub_desc }}</td>
+                    <td>{{ row.grade }}</td>
+                    <td>{{ row.units }}</td>
+                    <td>{{ row.source_file }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted">No records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

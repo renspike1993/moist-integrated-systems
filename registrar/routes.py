@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import data_center,student,curriculum,program
+from .views import data_center,student,curriculum,program, promotional_report
 
 app_name = "registrar"
 
@@ -10,6 +10,7 @@ urlpatterns = [
     # Folder routes
     path('', data_center.get_dashboard, name='dashboard'),
     path('data-center/add/', data_center.add_folder, name='add_folder'),
+    path('data-center/view/<int:folder_id>/', data_center.view_folder, name='view_folder'),
     path('data-center/edit/<int:folder_id>/', data_center.edit_folder, name='edit_folder'),
     path('data-center/delete/<int:folder_id>/', data_center.delete_folder, name='delete_folder'),
     path('data-center/import', data_center.import_folders_from_csv, name='import'),
@@ -36,4 +37,7 @@ urlpatterns = [
     path('curriculums/delete/<int:curriculum_id>/', curriculum.delete_curriculum, name='delete_curriculum'),
     path('curriculum/import/', curriculum.import_curriculum_from_csv, name='import_curriculum'),
 
+    path('import-promotional-report/', promotional_report.import_promotional_report, name='import_promotional_report'),
+    path('promotional-report-summary/', promotional_report.promotional_report_summary, name='promotional_report_summary'),
+    path('promotional/<int:year>/<str:semester>/', promotional_report.promotional_detail, name='promotional_detail'),
 ]
