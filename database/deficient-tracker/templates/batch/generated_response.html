@@ -1,0 +1,321 @@
+{% extends "layout.html" %} {% block content %}
+
+<style>
+	@media print {
+		body * {
+			visibility: hidden;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		.letter-container,
+		.letter-container * {
+			visibility: visible;
+		}
+
+		.letter-container {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 2cm;
+		}
+
+		#print-btn,
+		.no-print {
+			display: none;
+		}
+	}
+
+	.letter-container {
+		font-family: Arial, Helvetica, sans-serif;
+		width: 21cm;
+		min-height: 29.7cm;
+		padding: 1.5cm;
+		/* font-family: "Georgia", serif; */
+		font-size: 12pt;
+		line-height: 1.6;
+		color: #333;
+		background: #fff;
+		margin: 0 auto;
+		box-sizing: border-box;
+	}
+
+	.letter-header {
+		display: flex;
+		line-height: 1.2;
+		justify-content: space-between;
+		margin-bottom: 2em;
+		text-align: center;
+		margin-left: 20px;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.logo {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100px;
+		height: auto;
+	}
+
+	.letter-date {
+		text-align: right;
+		color: #555;
+	}
+
+	.institution-letterhead {
+		font-weight: bold;
+		font-size: 11pt;
+		color: #2c3e50;
+		text-align: center;
+		margin-bottom: 0px;
+	}
+
+	.institution-address {
+		font-size: 11pt;
+		text-align: center;
+		margin-bottom: 5px;
+	}
+
+	.institution-contact {
+		font-size: 8pt;
+		text-align: center;
+		color: #555;
+		margin-bottom: 5px;
+	}
+
+	.institution-member {
+		font-size: 9pt;
+		text-align: center;
+		font-style: italic;
+		color: #555;
+	}
+
+	.recipient-block {
+		margin-bottom: 2em;
+		line-height: .3;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	.subject-line {
+		font-weight: bold;
+		margin: 1.5em 0;
+		color: #2c3e50;
+		font-size: 13pt;
+	}
+
+	.reference-line {
+		font-style: italic;
+		margin-bottom: 1.5em;
+		color: #555;
+	}
+
+	.letter-body p {
+		text-align: justify;
+		margin-bottom: 1.2em;
+	}
+
+	.letter-body .indent {
+		text-indent: 2em;
+	}
+
+	.letter-body .issue {
+		margin-left: 2em;
+		margin-bottom: 1.2em;
+		padding-left: 1em;
+		border-left: 2px solid #e0e0e0;
+	}
+
+	.signature-block {
+		margin-top: 4em;
+	}
+
+	.signature-space {
+		height: 60px;
+		margin-bottom: 5px;
+	}
+
+	.signature-name {
+		border-top: 1px solid #ccc;
+		width: 300px;
+		padding-top: 5px;
+	}
+
+	.letter-footer {
+		margin-top: 3em;
+		font-size: 10pt;
+		text-align: center;
+		color: #666;
+		padding-top: 1.5em;
+	}
+
+	.print-btn-container {
+		text-align: center;
+		margin: 20px 0;
+	}
+
+	#print-btn {
+		background: #2c3e50;
+		color: white;
+		border: none;
+		padding: 10px 25px;
+		border-radius: 4px;
+		font-size: 14px;
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+	th,
+	td {
+		border-color: black;
+	}
+
+	#print-btn:hover {
+		background: #1a252f;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 1.5em;
+	}
+
+	th,
+	td {
+		border: 1px solid #333;
+		padding: 8px 10px;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	thead {
+		background-color: #f4f4f4;
+	}
+</style>
+
+<div class="print-btn-container no-print">
+	<button id="print-btn" onclick="
+        if (confirm('Are you sure you want to print this letter?\nIt will be added for submission attempt(s) for each student listed below.')) {
+            const let_bod = document.getElementById('let_bod');
+            save_history(let_bod.innerHTML, '{{ batch_id }}');
+        }
+    ">
+		🚀 Print This Letter
+	</button>
+</div>
+
+<div id="let_bod" class="letter-container">
+	<div class="letter-header">
+		<img src="{{ url_for('static', filename='moist1.png') }}" class="logo" alt="MOIST Logo"
+			style="width: 100px; margin-left: -50px; margin-top: -15px;">
+		<div class="institution-letterhead">MISAMIS ORIENTAL INSTITUTE OF SCIENCE AND TECHNOLOGY (MOIST), INC.</div>
+		<div class="institution-address">Sta. Cruz, Cogon, Balingasag, Misamis Oriental</div>
+		<div class="institution-contact">
+			Website: www.moist-edu.com | Email: moist@moist.edu.ph | FB: www.facebook.com/moist.edu | Contact #:
+			09351124046
+		</div>
+		<div class="institution-address">Member of Philippine Association of Private Schools, Colleges and Universities
+			(PAPSCU)</div>
+	</div>
+	<div>6/19/2025</div><br><br>
+
+	<div class="recipient-block">
+		<p><b>ARLITA AMAPOLA B. MINGUEZ, PhD</b></p>
+		<p>Officer-in-Charge, Office of the Director IV</p>
+		<p>COMMISION ON HIGHER EDUCATION</p>
+		<p>Regional Office No.10</p>
+		<p>Cagayan De Oro City</p>
+	</div>
+
+	<p>Greetings!</p>
+
+	<div class="letter-body">
+		<p class="indent">
+			In reference to 1st indorsement dated March 26, 2025, regarding the application for Special Order (SO) for
+			our graduate Bachelor in Buisness Administration Majoring in Marketing Management from this institution, the
+			noted deficiences and corresponding compliance are outlined below:
+		</p>
+		<p>
+		<table>
+			<thead>
+				<th width="30%">Names</th>
+				<th width="5%">Degree</th>
+				<th width="10%">Date Graduated</th>
+				<th width="27.5%">Deficieny / Recommendations</th>
+				<th width="27.5%">Compliance</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						{% for applicant in applicants %}
+						<div style="margin-left: {% if not loop.first %}0{% else %}0{% endif %};">
+							{{ loop.index }}. {{ applicant.fullname }}
+						</div>
+						{% endfor %}
+					</td>
+					<td>
+						{{ applicants[0]['program_id'] }}
+					
+					</td>
+					<td></td>
+					<td>{{ recommendation }}</td>
+					<td>{{ compliance }}</td>
+				</tr>
+			</tbody>
+		</table>
+		</p>
+
+		<p class="indent">
+			We have communicated with the students informing with the initial and resubmission dates of this application in the Commision, as well as the cause and nature of the delayed submission, which was attributed to them and/or the institution.
+		</p>
+
+
+	</div>
+
+	<div class="signature-block">
+		<p>Respectfully submitted,</p>
+		<div class="signature-space"></div>
+		<div class="signature-name">
+			<strong>Melan A. Zaballero</strong>
+		</div>
+		<p>School Registrar</p>
+		<p>{{ institution_name }}</p>
+	</div>
+
+	<div class="letter-footer">
+		<!-- <p>This document constitutes an official request for Special Order Number issuance</p>
+		<p>Tel: (088)-855-2885 • Email: moist@moist.edu.ph</p> -->
+	</div>
+</div>
+
+<script>
+	base_url = "{{ url_for('batches.submit_history') }}";
+
+	function save_history(let_content, batch_id) {
+		fetch(base_url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				let_content: let_bod.innerHTML,
+				batch_id: batch_id,
+			})
+		})
+			.then(response => response.json())
+			.then(data => {
+				// alert(data);
+				// alert("Submission saved!");
+
+			})
+			.catch(error => {
+				console.error("Error:", error);
+			});
+
+		window.print();
+	}
+</script>
+{% endblock %}

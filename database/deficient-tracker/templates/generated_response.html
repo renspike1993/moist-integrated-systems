@@ -1,0 +1,207 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .letter-container, .letter-container * {
+            visibility: visible;
+        }
+        .letter-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 2cm;
+        }
+        #print-btn, .no-print {
+            display: none;
+        }
+    }
+
+    .letter-container {
+        width: 21cm;
+        min-height: 29.7cm;
+        padding: 2.5cm;
+        font-family: "Georgia", serif;
+        font-size: 12pt;
+        line-height: 1.6;
+        color: #333;
+        background: #fff;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .letter-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2em;
+    }
+
+    .letter-date {
+        text-align: right;
+        color: #555;
+    }
+
+    .institution-letterhead {
+        font-weight: bold;
+        font-size: 14pt;
+        color: #2c3e50;
+    }
+
+    .recipient-block {
+        margin-bottom: 2em;
+        line-height: 1.4;
+    }
+
+    .subject-line {
+        font-weight: bold;
+        margin: 1.5em 0;
+        color: #2c3e50;
+        font-size: 13pt;
+    }
+
+    .reference-line {
+        font-style: italic;
+        margin-bottom: 1.5em;
+        color: #555;
+    }
+
+    .letter-body p {
+        text-align: justify;
+        margin-bottom: 1.2em;
+    }
+
+    .letter-body .indent {
+        text-indent: 2em;
+    }
+
+    .letter-body .issue {
+        margin-left: 2em;
+        margin-bottom: 1.2em;
+        padding-left: 1em;
+        border-left: 2px solid #e0e0e0;
+    }
+
+    .signature-block {
+        margin-top: 4em;
+    }
+
+    .signature-space {
+        height: 60px;
+        margin-bottom: 5px;
+    }
+
+    .signature-name {
+        border-top: 1px solid #ccc;
+        width: 300px;
+        padding-top: 5px;
+    }
+
+    .letter-footer {
+        margin-top: 3em;
+        font-size: 10pt;
+        text-align: center;
+        color: #666;
+        padding-top: 1.5em;
+    }
+
+    .print-btn-container {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    #print-btn {
+        background: #2c3e50;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    #print-btn:hover {
+        background: #1a252f;
+    }
+</style>
+
+<div class="print-btn-container no-print">
+    <button id="print-btn" onclick="window.print()">
+        ✨ Print This Letter
+    </button>
+</div>
+
+<div class="letter-container">
+    <div class="letter-header">
+        <div class="institution-letterhead">
+            {{ institution_name }}
+        </div>
+        <div class="letter-date">
+            {{ today_date }}
+        </div>
+    </div>
+
+    <div class="recipient-block">
+        <p>The Director</p>
+        <p>Commission on Higher Education (CHED)</p>
+        <p>Higher Education Development Center Building,</p>
+        <p>Hayes St, Cagayan de Oro, 9000</p>
+    </div>
+
+    <p>Dear Sir/Madam:</p>
+
+    <div class="subject-line">
+        RE: REQUEST FOR SPECIAL ORDER NUMBER ISSUANCE
+    </div>
+    
+    <div class="reference-line">
+        Our Reference: {{ reference_number|default("Application for Special Order No. __________", true) }}
+    </div>
+
+    <div class="letter-body">
+        <p class="indent">
+            I hope this correspondence finds you well. I am writing to formally acknowledge and address the discrepancies identified during our application process for the issuance of a Special Order Number. We take full responsibility for these matters and wish to provide comprehensive explanations along with our proposed corrective actions.
+        </p>
+
+        <p class="indent">
+            Below is a detailed enumeration of the issues encountered, each accompanied by its respective explanation and resolution along with correct attached documents:
+        </p>
+
+        {% for item in letter_content %}
+            <p class="issue">
+                <strong>{{ item.description }}</strong> in <strong>{{ item.doc_name }}</strong>: The discrepancy occurred due to <strong>{{ item.acceptable_excuse }}</strong>. To make this right, we need to <strong>{{ item.resolution_statement }}</strong>.
+            </p>
+        {% endfor %}
+
+        <p class="indent">
+            We sincerely acknowledge these oversights and provide our assurance that such occurrences will not be repeated. We respectfully request your kind consideration in approving the Special Order Number application for our student, <strong>{{ student_name }}</strong>.
+        </p>
+    </div>
+
+    <div class="signature-block">
+        <p>Respectfully submitted,</p>
+        <div class="signature-space"></div>
+        <div class="signature-name">
+            <strong>Melan A. Zaballero</strong>
+        </div>
+        <p>School Registrar</p>
+        <p>{{ institution_name }}</p>
+        <!-- <p style="margin-top: 10px;">
+            <strong>Contact:</strong> {{ contact_information }}<br>
+            <strong>Email:</strong> {{ email_address }}
+        </p> -->
+    </div>
+    
+    <div class="letter-footer">
+        <p>This document constitutes an official request for Special Order Number issuance</p>
+        <p> Tel: (088)-855-2885 • Email: moist@moist.edu.ph</p>
+    </div>
+</div>
+
+{% endblock %}

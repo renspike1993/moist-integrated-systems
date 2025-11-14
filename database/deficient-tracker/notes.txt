@@ -1,0 +1,208 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Description : Query for selecting the student's program required documents for application of S.O number
+Parameter   : student_id , program_id , major
+------------------------------------------------------------------------------------------------------------------------------------------------------
+select applicant.fullname, programs.program_name , program_documents.notes ,program_documents.major , documents.doc_name,deficiencies.description
+from applicant,programs,program_documents,documents
+where applicant.program_id = programs.program_id
+and programs.program_id = program_documents.program_id
+and program_documents.doc_id = documents.doc_id
+and applicant.program_id = 'BSIT'
+and applicant.major IS NULL
+and applicant.id = 1;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+                   select applicant.id, applicant.fullname , documents.doc_name, deficiencies.*
+                    from applicant,documents,deficiencies,applicant_deficiencies
+                    where applicant.id = applicant_deficiencies.applicant_id
+                    and applicant_deficiencies.deficiencies_id = deficiencies.id
+                    and deficiencies.doc_id = documents.doc_id
+                    GROUP BY applicant.id                  
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+select applicant.id, documents.doc_name, deficiencies.description,deficiencies.prevalence,deficiencies.severity
+from applicant,documents,deficiencies,applicant_deficiencies
+where applicant.id = applicant_deficiencies.applicant_id
+and applicant_deficiencies.deficiencies_id = deficiencies.id
+and deficiencies.doc_id = documents.doc_id
+and applicant.id = 1;
+
+
+
+select applicant.id, documents.doc_name, deficiencies.description,deficiencies.acceptable_excuse,deficiencies.resolution_statement
+from applicant,documents,deficiencies,applicant_deficiencies
+where applicant.id = applicant_deficiencies.applicant_id
+and applicant_deficiencies.deficiencies_id = deficiencies.id
+and deficiencies.doc_id = documents.doc_id
+and applicant.id = 1;
+
+
+
+
+
+
+
+create a letter in this format
+
+
+
+
+Good Day Ched Office, 
+
+                    Formal Greetings and introduction here, atleast 3 sentences.
+
+
+                    loop happends here in this format
+                    Acknowledge mistakes : 
+                    Reason :
+                    Solution : 
+
+
+
+                    I acknowledge those mistakes state above and promise to not commit these following mistakes again. So we are asking for your kind consideration to approved the appliication for Special Order Number. ++
+
+
+
+
+-------------------------------------------------
+
+SELECT 
+    exam_answers.axmne_id,
+    COUNT(exam_answers.axmne_id)
+FROM 
+    exam_question_tbl, exam_answers
+WHERE 
+    exam_question_tbl.exam_answer = exam_answers.exans_answer
+GROUP BY 
+    exam_answers.axmne_id  
+ORDER BY `COUNT(exam_answers.axmne_id)` DESC;
+--------------------------------------------------
+
+SELECT 
+    exam_answers.axmne_id,
+
+examinee_tbl.exmne_fullname,
+exam_question_tbl.exam_question,
+    COUNT(exam_answers.axmne_id)
+FROM 
+    exam_question_tbl, exam_answers,examinee_tbl
+WHERE 
+    exam_question_tbl.exam_answer = exam_answers.exans_answer
+and 
+    exam_answers.axmne_id = examinee_tbl.exmne_id
+GROUP BY 
+    exam_answers.axmne_id  
+ORDER BY `COUNT(exam_answers.axmne_id)` DESC;
+
+------------------------------------------------
+SELECT 
+    exam_answers.axmne_id,
+    examinee_tbl.exmne_fullname,
+    
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'ENGLISH' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS english_score,
+
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'MATHEMATICS' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS math_score,
+
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'ABSTRACT' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS abstract_score,
+
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'SCIENCE' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS science_score,
+    
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT IN ('ENGLISH', 'MATHEMATICS', 'ABSTRACT', 'SCIENCE') 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 
+        ELSE 0 
+    END) AS total_score
+
+FROM 
+    exam_answers
+JOIN 
+    exam_question_tbl ON exam_answers.eqt_id = exam_question_tbl.eqt_id
+JOIN 
+    examinee_tbl ON exam_answers.axmne_id = examinee_tbl.exmne_id
+
+WHERE 
+    exam_question_tbl.SUBJECT IN ('ENGLISH', 'MATHEMATICS', 'ABSTRACT', 'SCIENCE')
+
+GROUP BY 
+    exam_answers.axmne_id, 
+    examinee_tbl.exmne_fullname,
+    examinee_tbl.exmne_course
+
+ORDER BY 
+    total_score DESC
+LIMIT 10;
+
+1293
+-------------------------------------------
+
+SELECT 
+    exam_answers.axmne_id,
+    examinee_tbl.exmne_fullname,
+    course_tbl.cou_name,
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'ENGLISH' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS english_score,
+
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'MATHEMATICS' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS math_score,
+
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'ABSTRACT' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS abstract_score,
+
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT = 'SCIENCE' 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 ELSE 0 
+    END) AS science_score,
+    
+    SUM(CASE 
+        WHEN exam_question_tbl.SUBJECT IN ('ENGLISH', 'MATHEMATICS', 'ABSTRACT', 'SCIENCE') 
+             AND exam_answers.exans_answer = exam_question_tbl.exam_answer 
+        THEN 1 
+        ELSE 0 
+    END) AS total_score
+
+FROM 
+    exam_answers
+JOIN 
+    exam_question_tbl ON exam_answers.eqt_id = exam_question_tbl.eqt_id
+JOIN 
+    examinee_tbl ON exam_answers.axmne_id = examinee_tbl.exmne_id
+JOIN
+	course_tbl ON examinee_tbl.exmne_course = course_tbl.cou_id
+WHERE 
+    exam_question_tbl.SUBJECT IN ('ENGLISH', 'MATHEMATICS', 'ABSTRACT', 'SCIENCE')
+
+GROUP BY 
+    exam_answers.axmne_id, 
+    examinee_tbl.exmne_fullname,
+    examinee_tbl.exmne_course
+
+ORDER BY 
+    total_score DESC
+LIMIT 10;

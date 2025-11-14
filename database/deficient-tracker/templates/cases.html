@@ -1,0 +1,163 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold text-dark mb-0">
+        <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+        Deficiency Cases for ({{doc_type}})
+    </h1>
+    <span class="badge bg-primary rounded-pill py-2 px-3">
+        {{ deficiencies|length }} case(s) found
+    </span>
+</div>
+
+<div class="row g-4">
+    {% for d in deficiencies %}
+    <div class="col-12">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center" 
+                 style="background-color: #2c3e50; color: white;">
+                <div>
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    <strong>Case #{{ loop.index }} : {{ d.description or 'No description provided' }}</strong>
+                </div>
+                <div>
+                    {% if d.severity == 'Critical' %}
+                    <span class="badge bg-danger py-2 px-3">
+                        <i class="bi bi-exclamation-octagon-fill me-1"></i> Critical
+                    </span>
+                    {% elif d.severity == 'High' %}
+                    <span class="badge bg-warning py-2 px-3 text-dark">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> High
+                    </span>
+                    {% elif d.severity == 'Medium' %}
+                    <span class="badge bg-secondary py-2 px-3">
+                        <i class="bi bi-info-circle-fill me-1"></i> Medium
+                    </span>
+                    {% elif d.severity == 'Low' %}
+                    <span class="badge bg-success py-2 px-3">
+                        <i class="bi bi-check-circle-fill me-1"></i> Low
+                    </span>
+                    {% else %}
+                    <span class="badge bg-light text-dark py-2 px-3">
+                        <i class="bi bi-question-circle-fill me-1"></i> N/A
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-card-text me-2 text-muted"></i>
+                        <h6 class="text-uppercase small mb-0 text-muted">Description</h6>
+                    </div>
+                    <div class="ps-4">
+                        <p class="mb-0"><strong>{{ d.description or 'No description provided' }}</strong></p>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-journal-text me-2 text-muted"></i>
+                        <h6 class="text-uppercase small mb-0 text-muted">Possible Reasons</h6>
+                    </div>
+                    <div class="ps-4">
+                        <ul class="list-group list-group-flush">
+                            {% if d.acceptable_excuse %}
+                            <li class="list-group-item bg-transparent ps-0 py-1">
+                                <i class="bi bi-dot text-primary me-1"></i>
+                                {{ d.acceptable_excuse }}
+                            </li>
+                            {% endif %}
+                            {% if d.probable_excuse %}
+                            <li class="list-group-item bg-transparent ps-0 py-1">
+                                <i class="bi bi-dot text-primary me-1"></i>
+                                {{ d.probable_excuse }}
+                            </li>
+                            {% endif %}
+                            {% if d.common_excuse %}
+                            <li class="list-group-item bg-transparent ps-0 py-1">
+                                <i class="bi bi-dot text-primary me-1"></i>
+                                {{ d.common_excuse }}
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-lightbulb me-2 text-muted"></i>
+                        <h6 class="text-uppercase small mb-0 text-muted">Recommended Solution</h6>
+                    </div>
+                    <div class="ps-4">
+                        <div class="alert alert-light border">
+                            <i class="bi bi-arrow-right-short text-primary me-1"></i>
+                            {{ d.resolution_statement or 'No solution provided' }}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-lightbulb me-2 text-muted"></i>
+                        <h6 class="text-uppercase small mb-0 text-muted">Violated CMO</h6>
+                    </div>
+                    <div class="ps-4">
+                        <div class="alert alert-light border">
+                            <i class="bi bi-arrow-right-short text-primary me-1"></i>
+                            None as of now.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="d-flex justify-content-end gap-2 pt-2">
+                    <a class="btn btn-danger px-4 d-flex align-items-center"
+                       href="http://127.0.0.1:5000/applicant_deficiencies/insert/{{d.id}}/{{app_id}}" 
+                       onclick="return confirm('Are you sure you want to add this case of {{doc_type}} to applicant no. {{ app_id }}?')">
+                        <i class="bi bi-check-circle-fill me-2"></i> 
+                        Select Case
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-bottom: none;
+    }
+    
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+    }
+    
+    .btn-danger {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        transition: all 0.2s;
+    }
+    
+    .btn-danger:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+        transform: translateY(-2px);
+    }
+    
+    .alert-light {
+        background-color: #f8f9fa;
+    }
+</style>
+
+{% endblock %}
