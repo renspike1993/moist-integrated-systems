@@ -1,5 +1,15 @@
 from django.contrib import admin
-from .models import Program, Curriculum, Course, Folder, Student
+from .models import Program, Curriculum, Course, Folder, Student ,Permission,ExtendedPermission
+
+@admin.register(Permission)
+class PermissionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'codename')
+    search_fields = ('name', 'codename')
+
+@admin.register(ExtendedPermission)
+class ExtendedPermissionAdmin(admin.ModelAdmin):
+    list_display = ('id','permission__name','permission__codename','button_class','button_label','button_icon')
+    search_fields = ('button_class',)
 
 # --- Program ---
 @admin.register(Program)

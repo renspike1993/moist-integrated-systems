@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block title %}System Integrations{% endblock %} {% block content %}
+
+<h2 class="mb-4">Extended Permissions</h2>
+
+<div class="table-responsive">
+	<table class="table table-bordered table-striped align-middle">
+		<thead class="table-dark">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Codename</th>
+				<th>Button Preview</th>
+				<th>Button Class</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for perm in permissions %}
+			<tr>
+				<td>{{ perm.id }}</td>
+				<td>{{ perm.name }}</td>
+				<td>{{ perm.codename }}</td>
+
+				<!-- Live preview -->
+				<td>
+					<button class="{{ perm.button_class|default:'btn btn-secondary btn-sm' }}">{{ perm.button_label|default:'Preview' }}</button>
+				</td>
+
+				<!-- Form to add/update button -->
+				<td>
+					<form method="POST" action="{%  url 'registrar:save_permission_button' perm.id %}" class="d-flex gap-2">
+						{% csrf_token %}
+
+						<input type="text" name="button_class" class="form-control form-control-sm" placeholder="btn btn-primary btn-sm" value="{{ perm.button_class|default:'' }}" required />
+
+						<input type="text" name="button_label" class="form-control form-control-sm" placeholder="Label" value="{{ perm.button_label|default:'' }}" required />
+
+						<button type="submit" class="btn btn-success btn-sm">Save</button>
+					</form>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

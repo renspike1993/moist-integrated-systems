@@ -8,8 +8,12 @@
 </div>
 
 <div class="container my-4">
-	<p><code>Note:</code> These promotional records was submitted already to CHED with the school's hardcopy and sealed. Therefore, no more changes shall be made. <a href="https://www.scribd.com/document/410128467/RM-No-005-s-2019-REITERATION-OF-GUIDELINES-ON-THE-GIVING-OF-STUDENT-GRADES-AND-SUBMISSION-OF-PROMOTIONAL-REPORTS-pdf">RM No. 005, s. 2019 — CHED Region X</a></p>
-
+	<p>
+		<code>Guidline Reference :</code> <a href="https://www.scribd.com/document/410128467/RM-No-005-s-2019-REITERATION-OF-GUIDELINES-ON-THE-GIVING-OF-STUDENT-GRADES-AND-SUBMISSION-OF-PROMOTIONAL-REPORTS-pdf">RM No. 005, s. 2019 — CHED Region X</a>
+		<br />
+		<code>Important! </code> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: These records are for reference only for issuance of documents that required grade records (GWA, TOR,UNIt earned) 
+		<br /><code>Note </code>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : These promotional records was submitted already to CHED with the school's hardcopy and sealed. Therefore, no more changes shall be made.
+	</p>
 	<div class="table-responsive my-3">
 		<table class="table table-striped table-hover align-middle">
 			<thead class="table-primary">
@@ -26,7 +30,7 @@
 				{% for row in summary %}
 				<tr onclick="window.location.href='{% url 'registrar:promotional_detail' row.year row.semester %}'" style="cursor: pointer">
 					<td>{{ forloop.counter }}</td>
-					<td>{{ row.year }}</td>
+					<td>{{ row.year }} - {{ row.folders_found}}</td>
 					<td>{{ row.semester|default:"N/A" }}</td>
 					<td>{{ row.total_students }}</td>
 					<td>

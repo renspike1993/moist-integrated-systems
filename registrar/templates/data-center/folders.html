@@ -31,7 +31,7 @@
 					<th scope="col">Folder Name</th>
 					<th scope="col">Floor #</th>
 					<th scope="col">Capacity</th>
-					<th scope="col">Owner</th>
+					<th scope="col">Created By</th>
 					<th scope="col" class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -40,13 +40,13 @@
 				<tr>
 					<td>{{ forloop.counter0|add:page_obj.start_index|add:"-1" }}</td>
 					<td>{{ folder.folder_name }}</td>
-					<td>{{ folder.floor_number }}</td>
+					<td>{{ folder.floor_number }}{{ folder.students.student_counts }}</td>
 					<td>{{ folder.student_count }}/{{ folder.max_size }}</td>
 					<td>{{ folder.folder_owner.username }}</td>
 
 					<td class="text-center">
 						{% if perms.registrar.view_folder %}
-						<a href="{% url 'registrar:view_folder' folder.id %}" class="btn btn-sm btn-outline-primary" title="Edit">
+						<a href="{% url 'registrar:view_folder' folder.id %}?qp={{ qp }}" class="btn btn-sm btn-outline-primary" title="Edit">
 							<i class="bi bi-folder-plus"></i>
 						</a>
 						{% endif %} {% if perms.registrar.add_folder %}
@@ -60,7 +60,6 @@
 						{% endif %} {% if not perms.registrar.add_folder and not perms.registrar.delete_folder %}
 						<button class="btn btn-sm btn-outline-secondary" disabled>No available Action</button>
 						{% endif %}
-
 					</td>
 				</tr>
 				{% empty %}

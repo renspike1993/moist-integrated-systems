@@ -1,6 +1,7 @@
 from django import forms
 from .models import Folder,Student,Program,Curriculum
 
+
 class FolderForm(forms.ModelForm):
     class Meta:
         model = Folder

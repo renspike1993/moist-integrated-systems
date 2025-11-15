@@ -10,4 +10,7 @@ urlpatterns = [
 
     # Logout
     path('logout/', LogoutView.as_view(next_page='accounts:login'), name='logout'),
+
+    path('warning/',   CustomLoginView.get_request_details, name='warning'),
+
 ]

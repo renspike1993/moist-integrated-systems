@@ -1,5 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User  # import User model
+from django.contrib.auth.models import User,Permission  # import User model
+
+
+class ExtendedPermission(models.Model):
+    permission = models.OneToOneField(Permission, on_delete=models.CASCADE)
+    button_label = models.CharField(max_length=50)
+    button_class = models.CharField(max_length=50)
+    button_icon =   models.CharField(max_length=50,default='badge bg-secondary')
+
+    def __str__(self):
+        return ExtendedPermission.objects.name
+    
+    class Meta:
+        app_label = 'asd'
+
 
 class Folder(models.Model):
     folder_name = models.CharField(max_length=100)
@@ -12,7 +26,7 @@ class Folder(models.Model):
     )
 
     def __str__(self):
-        return self.folder_name
+        return self.folder_owner
 
 
     class Meta:

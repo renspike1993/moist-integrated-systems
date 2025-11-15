@@ -10,30 +10,47 @@ from ..models import Folder, Student
 from django.contrib.auth.decorators import login_required, permission_required
 
 # --- Dashboard ---
-
 @login_required
 @permission_required('registrar.view_folder', login_url='accounts:login')
 def get_dashboard(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get('q', '').strip()
+    qp = request.GET.get('qp', '').strip()
 
-    # Annotate folders with student_count
+    # Base queryset ONCE ONLY
     folders = Folder.objects.annotate(
         student_count=Count('students')
     ).order_by('id')
 
-    # Apply search filter if query exists
+    # Apply search filter only if needed
     if query:
-        folders = folders.filter(folder_name__icontains=query)
+        folders = folders.filter(
+            Q(folder_name__icontains=query) |
+            Q(students__first_name__icontains=query) |
+            Q(students__last_name__icontains=query)
+        ).distinct()
 
     # Pagination
     paginator = Paginator(folders, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    #     print(folder, students)
+
+
     context = {
         'page_obj': page_obj,
         'query': query,
+        'qp': {
+            f.folder_name: Student.objects.filter(
+                folder_id=f.id
+            ).filter(
+                Q(first_name__icontains=query) |
+                Q(last_name__icontains=query)
+            )
+            for f in page_obj
+        } if query else {},
     }
+
 
     return render(request, 'data-center/folders.html', context)
 

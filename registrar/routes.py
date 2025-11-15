@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import data_center,student,curriculum,program, promotional_report, system_integ
+from .views import data_center,student,curriculum,program, promotional_report, system_integ,permissions
 
 app_name = "registrar"
 
@@ -15,6 +15,9 @@ urlpatterns = [
     path('data-center/delete/<int:folder_id>/', data_center.delete_folder, name='delete_folder'),
     path('data-center/import', data_center.import_folders_from_csv, name='import'),
     path('folder/<int:folder_id>/add-student/', data_center.add_student_to_folder, name='add_student_to_folder'),
+    path('folder/<int:id>/<str:extra>/', data_center.view_folder, name='view_folder'),
+
+
     path('remove-student/<int:student_id>/', data_center.remove_student_from_folder, name='remove_student_from_folder'),
 
 
@@ -34,6 +37,8 @@ urlpatterns = [
     path('programs/delete/<int:program_id>/', program.delete_program, name='delete_program'),
     path('programs/import/', program.import_programs_from_csv, name='import_programs'),
 
+    path("permissions/<int:perm_id>/save-button/", permissions.save_permission_button, name="save_permission_button"),
+
 
     # Curriculum routes
     path('curriculums/', curriculum.curriculum_list, name='curriculum_list'),
@@ -45,4 +50,7 @@ urlpatterns = [
     path('import-promotional-report/', promotional_report.import_promotional_report, name='import_promotional_report'),
     path('promotional-report-summary/', promotional_report.promotional_report_summary, name='promotional_report_summary'),
     path('promotional/<int:year>/<str:semester>/', promotional_report.promotional_detail, name='promotional_detail'),
+
+    path('extended-permissions/', permissions.permission_list, name='permission_list'),
+
 ]
